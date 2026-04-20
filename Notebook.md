@@ -11,7 +11,7 @@
 * Most physical systems (like robots) are described by differential (or difference) equations.
 * These equations (usually obtained via physical laws) provide the starting point for the analysis and control of systems.
 * For sake of presentation we limit ourselves to systems described by ordinary differential equations which will lead to a finite-dimensional state space ( Partial differential equations, leading to infinite-dimensional systems, are used to study flexible structures, like flexible-link robotic arms)
-### Continuous-time systems
+### Linear systems
 A continuous-time system is said to be linear if it obeys the principle of **superposition**.
 
 ---
@@ -22,4 +22,23 @@ For any constants a₁ and a₂:
 a₁·x₁(t) + a₂·x₂(t) → a₁·y₁(t) + a₂·y₂(t)
 
 ---
-### Linear systems
+A linear SISO, continuous-time, time invariant system is described by linear, scalar, constant-coefficient ordinary differential equations such as:
+$$  
+\frac{d^n y(t)}{dt^n}  
++ a_{n-1} \frac{d^{n-1} y(t)}{dt^{n-1}}  
++ \cdots  
++ a_1 \frac{dy(t)}{dt}  
++ a_0 y(t)  
+=  
+b_n \frac{d^n u(t)}{dt^n}  
++ b_{n-1} \frac{d^{n-1} u(t)}{dt^{n-1}}  
++ \cdots  
++ b_1 \frac{du(t)}{dt}  
++ b_0 u(t)
+$$
+where:  
+$a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
+$u(t)$ is the input
+$y(t)$ is output
+### State-space realization
+
