@@ -36,6 +36,7 @@ b_n \frac{d^n u(t)}{dt^n}
 + b_1 \frac{du(t)}{dt}  
 + b_0 u(t)
 $$
+
 where:  
 $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
