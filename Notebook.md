@@ -31,6 +31,14 @@ $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
 $y(t)$ is output
 ### State-space realization
+...!!
+### Transfer function
+...!!
+### Nonlinear state-variable systems
+...!!
+### Vector spaces, norms and inner product
+...!!
+
 
 
 
