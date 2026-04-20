@@ -23,8 +23,7 @@ a₁·x₁(t) + a₂·x₂(t) → a₁·y₁(t) + a₂·y₂(t)
 
 ---
 A linear SISO, continuous-time, time invariant system is described by linear, scalar, constant-coefficient ordinary differential equations such as:
-$$\frac{d^n y(t)}{dt^n}  
-+ a_{n-1} \frac{d^{n-1} y(t)}{dt^{n-1}}  
+$$\frac{d^n y(t)}{dt^n} + a_{n-1} \frac{d^{n-1} y(t)}{dt^{n-1}}  
 + \cdots  
 + a_1 \frac{dy(t)}{dt}  
 + a_0 y(t)  
