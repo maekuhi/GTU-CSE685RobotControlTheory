@@ -34,6 +34,7 @@ b_n \frac{d^n u(t)}{dt^n}
 + \cdots  
 + b_1 \frac{du(t)}{dt}  
 + b_0 u(t)$$
+![eq](./images/linsys.png)
 where:  
 $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
