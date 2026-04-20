@@ -34,6 +34,21 @@ b_n \frac{d^n u(t)}{dt^n}
 + \cdots  
 + b_1 \frac{du(t)}{dt}  
 + b_0 u(t)$$
+
+\[  
+\frac{d^n y(t)}{dt^n}  
++ a_{n-1} \frac{d^{n-1} y(t)}{dt^{n-1}}  
++ \cdots  
++ a_1 \frac{dy(t)}{dt}  
++ a_0 y(t)  
+=  
+b_n \frac{d^n u(t)}{dt^n}  
++ b_{n-1} \frac{d^{n-1} u(t)}{dt^{n-1}}  
++ \cdots  
++ b_1 \frac{du(t)}{dt}  
++ b_0 u(t)  
+\]
+
 where:  
 $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
