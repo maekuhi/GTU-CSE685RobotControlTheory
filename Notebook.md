@@ -2,7 +2,7 @@
 ## Basic definitions
 * Most robots used in industrial applications are simple positioning / handling devices.
 * Therefore it is necessary for a robot to be able to “control” its movements and the forces it applies to its environment.
-* In order to properly “control”, requires the ==mathematical model== and some sort of intelligence to act on the model.
+* In order to properly “control”, requires the ==mathematical model== and some sort of intelligence to act on the model
 	* The mathematical model of the robot can be obtained from physical laws governing its movement
 	* Intelligence, on the other hand requires sensory capabilities and means for acting/reacting the sensed variables
 * The actions and reactions of the robotic device are the result of control design
