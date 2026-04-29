@@ -31,8 +31,17 @@ $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
 $y(t)$ is output
 ### State-space realization
-#### General form
-$\dot{x}(t) = A x(t) + B u(t)$
+- General form
+	$\dot{x}(t) = A x(t) + B u(t)$
+	$y(t) = C x(t) + D u(t)$
+	
+		- x(t): state vector (internal system variables)
+		- u(t): input
+		- y(t): output
+		- A: system matrix
+		- B: input matrix
+		- C: output matrix
+		- D: feedthrough matrix
 
 ### Transfer function
 ...!!
