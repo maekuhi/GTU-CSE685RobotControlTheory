@@ -31,7 +31,9 @@ $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
 $y(t)$ is output
 ### State-space realization
-...!!
+#### General form
+$\dot{x}(t) = A x(t) + B u(t)$
+
 ### Transfer function
 ...!!
 ### Nonlinear state-variable systems
