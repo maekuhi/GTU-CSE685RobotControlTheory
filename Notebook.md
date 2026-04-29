@@ -31,9 +31,14 @@ $a_i, b_i \; (i = 1, \dots, n)$ are scalar constants
 $u(t)$ is the input
 $y(t)$ is output
 ### State-space realization
-- General form
-	$\dot{x}(t) = A x(t) + B u(t)$
-	$y(t) = C x(t) + D u(t)$
+- General form 
+$$
+		\begin{aligned}  
+		\dot{x}(t) = A x(t) + B u(t) \\  
+		y(t) = C x(t) + D u(t)  
+		\end{aligned}
+$$
+	
 		- x(t): state vector (internal system variables)
 		- u(t): input
 		- y(t): output
