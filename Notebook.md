@@ -32,6 +32,7 @@ $u(t)$ is the input
 $y(t)$ is output
 ### State-space realization
 - General form
+
 	$\dot{x}(t) = A x(t) + B u(t)$
 	
 	$y(t) = C x(t) + D u(t)$
