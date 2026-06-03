@@ -336,6 +336,38 @@ A useful control-affine form is:
 
 Robotic systems naturally lead to nonlinear state-space models because inertia, Coriolis terms, and trigonometric geometry depend on configuration and velocity.
 
+## Nonlinear Discrete-Time Systems
+
+The discrete-time nonlinear counterpart is:
+
+```math
+x(k+1)=f(x(k),u(k),k)
+```
+
+```math
+y(k)=h(x(k),u(k),k)
+```
+
+For time-invariant discrete nonlinear systems:
+
+```math
+x(k+1)=f(x(k),u(k))
+```
+
+and for autonomous discrete systems:
+
+```math
+x(k+1)=f(x(k))
+```
+
+An equilibrium `x_e` for the autonomous discrete system satisfies:
+
+```math
+x_e=f(x_e)
+```
+
+The stability question then becomes: if `x(0)` starts near `x_e`, do the iterates `x(k)` remain near it and possibly converge to it as `k\to\infty`?
+
 ## Nonlinear Examples
 
 ### Damped pendulum
@@ -464,6 +496,56 @@ Bounded-input bounded-output stability means:
 \|u\|<\infty \Rightarrow \|y\|<\infty
 ```
 
+## Inner Products
+
+An inner product generalizes the dot product. For real vectors:
+
+```math
+\langle x,y\rangle=x^Ty
+```
+
+It satisfies:
+
+- symmetry:
+
+```math
+\langle x,y\rangle=\langle y,x\rangle
+```
+
+- linearity in each argument:
+
+```math
+\langle ax_1+bx_2,y\rangle
+=
+a\langle x_1,y\rangle+b\langle x_2,y\rangle
+```
+
+- positivity:
+
+```math
+\langle x,x\rangle>0,\qquad x\neq 0
+```
+
+The Euclidean norm is induced by the inner product:
+
+```math
+\|x\|_2=\sqrt{\langle x,x\rangle}
+```
+
+For functions, an important inner product is:
+
+```math
+\langle f,g\rangle
+=
+\int_{t_0}^{t_1} f^T(t)g(t)\,dt
+```
+
+This connects signal energy with `L_2` norms:
+
+```math
+\|f\|_2^2=\langle f,f\rangle
+```
+
 ## Matrix Definiteness
 
 For a symmetric matrix `A`:
@@ -519,4 +601,3 @@ a>0,\qquad ad-b^2>0
 ## What to Remember
 
 This lecture gives the grammar of the course. State-space models say how systems evolve; transfer functions say how linear systems transform inputs into outputs; norms and matrix definiteness give us the language to discuss size, boundedness, and stability. The later robot controllers are not separate from this lecture. They are this lecture wearing more geometry.
-

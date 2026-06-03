@@ -74,6 +74,24 @@ An equilibrium `x_e` is stable if for every `\epsilon>0`, there exists a `\delta
 
 The lecture drawings show a tube around the equilibrium: if the trajectory starts inside a small ball, it stays inside the larger allowed ball.
 
+## Instability
+
+An equilibrium is unstable if it is not stable. In other words, there exists at least one tolerance `\epsilon>0` such that no matter how close the initial condition is chosen, a trajectory can eventually leave the `\epsilon`-neighborhood.
+
+Formally, instability means there is an `\epsilon>0` such that for every `\delta>0`, one can find:
+
+```math
+\|x(t_0)-x_e\|<\delta
+```
+
+but for some later time:
+
+```math
+\|x(t)-x_e\|\ge \epsilon
+```
+
+Instability is not the same as divergence to infinity. A trajectory may remain bounded and still violate stability by moving away from the equilibrium neighborhood.
+
 ## Convergence
 
 Convergence means:
@@ -111,6 +129,14 @@ Local asymptotic stability only holds inside some neighborhood of the equilibriu
 
 Uniform stability means the stability bound can be chosen independently of the initial time `t_0`.
 
+Uniform convergence means the time required for convergence can be chosen independently of `t_0`. More concretely, for every `\epsilon>0` and initial-radius bound, there exists a time `T(\epsilon)` such that:
+
+```math
+\|x(t)-x_e\|<\epsilon,\qquad t\ge t_0+T(\epsilon)
+```
+
+for all allowed initial times `t_0`.
+
 Exponential stability gives a stronger decay estimate:
 
 ```math
@@ -126,6 +152,46 @@ k>0,\qquad \alpha>0
 ```
 
 Global exponential stability means this bound holds globally.
+
+## Convergence Rate
+
+Lyapunov inequalities can tell not only whether convergence occurs, but how fast it occurs.
+
+If:
+
+```math
+\dot{V}\le -cV
+```
+
+for `c>0`, then:
+
+```math
+V(t)\le V(t_0)e^{-c(t-t_0)}
+```
+
+This gives exponential decay. If `V` has quadratic bounds:
+
+```math
+\alpha_1\|x\|^2\le V(x)\le \alpha_2\|x\|^2
+```
+
+then:
+
+```math
+\|x(t)\|
+\le
+\sqrt{\frac{\alpha_2}{\alpha_1}}
+e^{-\frac{c}{2}(t-t_0)}
+\|x(t_0)\|
+```
+
+If the derivative has a weaker form, such as:
+
+```math
+\dot{V}\le -cV^\gamma
+```
+
+then different rates are obtained. For `0<\gamma<1`, finite-time convergence can occur; for `\gamma>1`, convergence is slower than exponential near the origin.
 
 ## Boundedness and Ultimate Boundedness
 
@@ -335,6 +401,52 @@ exists, then the system is stable using:
 V=x^TPx
 ```
 
+## Krasovskii Theorem
+
+Krasovskii's theorem gives a systematic Lyapunov candidate for autonomous nonlinear systems:
+
+```math
+\dot{x}=f(x)
+```
+
+Instead of guessing `V(x)` directly, define:
+
+```math
+V(x)=\frac{1}{2}f^T(x)f(x)
+```
+
+or more generally:
+
+```math
+V(x)=f^T(x)P f(x),\qquad P=P^T>0
+```
+
+Since:
+
+```math
+\dot{V}
+=
+f^T(x)
+\left[
+\left(\frac{\partial f}{\partial x}\right)^TP
++
+P\left(\frac{\partial f}{\partial x}\right)
+\right]
+f(x)
+```
+
+if the symmetric matrix:
+
+```math
+\left(\frac{\partial f}{\partial x}\right)^TP
++
+P\left(\frac{\partial f}{\partial x}\right)
+```
+
+is negative definite in a region, asymptotic stability can be concluded in that region.
+
+The theorem is useful because it connects local nonlinear stability to the Jacobian of the vector field.
+
 ## Passivity
 
 Passivity is an input-output energy property. A passive system satisfies an inequality like:
@@ -350,6 +462,119 @@ Robotic systems have passivity-like structure because kinetic energy and torque-
 ```math
 \tau^T\dot{q}
 ```
+
+## Positive-Real Systems
+
+Positive-realness is the frequency-domain companion of passivity for linear systems.
+
+A transfer function `G(s)` is positive real if:
+
+1. `G(s)` has no poles in the open right-half plane.
+2. For `s=j\omega`, the real part is nonnegative:
+
+```math
+\operatorname{Re}\{G(j\omega)\}\ge 0
+```
+
+For MIMO systems:
+
+```math
+G(j\omega)+G^T(-j\omega)\ge 0
+```
+
+Positive-real systems do not generate net energy. This is why they appear in stability proofs for interconnected passive systems.
+
+## Lure Problem
+
+The Lure problem studies feedback interconnections of a linear dynamic system and a static nonlinearity:
+
+```mermaid
+flowchart LR
+    R["r"] --> SUM(("sum"))
+    SUM --> G["linear system G(s)"]
+    G --> Y["y"]
+    Y --> PHI["static nonlinearity phi(y)"]
+    PHI -->|negative feedback| SUM
+```
+
+The nonlinearity is usually assumed to lie in a sector:
+
+```math
+k_1y^2\le y\phi(y)\le k_2y^2
+```
+
+The central question is: under what conditions is the feedback interconnection stable for every nonlinearity in that sector?
+
+This leads naturally to passivity, positive-realness, and frequency-domain stability tests.
+
+## KYP / MKY Lemma
+
+The Kalman-Yakubovich-Popov lemma, sometimes referred to in this course's notes as the MKY/KYP lemma, connects frequency-domain positive-realness with a state-space Lyapunov inequality.
+
+For:
+
+```math
+\dot{x}=Ax+Bu,\qquad y=Cx+Du
+```
+
+positive-realness of the transfer function is equivalent, under technical assumptions, to the existence of a matrix:
+
+```math
+P=P^T>0
+```
+
+such that a certain matrix inequality holds. A common passivity form is:
+
+```math
+\begin{bmatrix}
+A^TP+PA & PB-C^T\\
+B^TP-C & -(D+D^T)
+\end{bmatrix}
+\le 0
+```
+
+The meaning is elegant: a frequency-domain statement can be certified by a Lyapunov/storage function in state space.
+
+## Small-Gain Theorem
+
+The small-gain theorem is used for interconnected systems.
+
+Suppose two stable systems `H_1` and `H_2` are connected in feedback. If their induced gains satisfy:
+
+```math
+\|H_1\|\,\|H_2\|<1
+```
+
+then the closed-loop interconnection is stable.
+
+Conceptually:
+
+```text
+If each loop around the feedback connection shrinks signals overall,
+then signals cannot grow without bound.
+```
+
+This theorem is useful for robustness analysis because uncertainty can often be represented as a bounded-gain block.
+
+## Total Stability Theorem
+
+Total stability concerns persistence of stability under perturbations.
+
+If the nominal system:
+
+```math
+\dot{x}=f(x,t)
+```
+
+is uniformly asymptotically stable, then the perturbed system:
+
+```math
+\dot{x}=f(x,t)+g(x,t)
+```
+
+remains stable when the perturbation `g` is sufficiently small.
+
+The idea is not that perturbations disappear, but that sufficiently strong stability margins survive small modeling errors, disturbances, or approximation effects.
 
 ## Bellman-Gronwall Inequality
 

@@ -108,6 +108,59 @@ The sign convention is chosen so the Lyapunov derivative contains:
 
 plus uncertainty terms.
 
+## Model-Parameter Uncertainty Form
+
+For parameter uncertainty, the uncertain dynamics can be written with a regressor:
+
+```math
+M(q)\ddot{q}_r
++V_m(q,\dot{q})\dot{q}_r
++G(q)
++F_d\dot{q}
+=
+Y(q,\dot{q},\dot{q}_r,\ddot{q}_r)\theta
+```
+
+If the controller uses nominal parameters `\hat{\theta}`, then:
+
+```math
+Y\theta=Y\hat{\theta}+Y\tilde{\theta}
+```
+
+where:
+
+```math
+\tilde{\theta}=\theta-\hat{\theta}
+```
+
+The uncertainty entering the filtered-error dynamics is:
+
+```math
+\Delta=Y\tilde{\theta}
+```
+
+If:
+
+```math
+\|\tilde{\theta}\|\le \bar{\theta}
+```
+
+then:
+
+```math
+\|\Delta\|\le \|Y\|\bar{\theta}
+```
+
+Therefore, the robust gain may be chosen as:
+
+```math
+\rho(q,\dot{q},\dot{q}_r,\ddot{q}_r)
+\ge
+\|Y(q,\dot{q},\dot{q}_r,\ddot{q}_r)\|\bar{\theta}
+```
+
+This connects the switching/robust term to a specific uncertainty bound rather than to arbitrary large gain.
+
 ## Lyapunov Analysis
 
 Choose:

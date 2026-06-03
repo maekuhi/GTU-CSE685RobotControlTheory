@@ -53,6 +53,304 @@ where `x_d(t)` is time varying.
 
 The goal is to define error coordinates that cover both cases.
 
+## Mobile Robot Reminder
+
+The lecture begins from the unicycle/mobile-robot kinematics:
+
+```math
+\begin{bmatrix}
+\dot{x}_c\\
+\dot{y}_c\\
+\dot{\theta}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & 0\\
+\sin\theta & 0\\
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+v_l\\
+v_\omega
+\end{bmatrix}
+```
+
+where:
+
+- `v_l` is linear velocity,
+- `v_\omega` is angular velocity,
+- `(x_c,y_c,\theta)` is the Cartesian posture of the robot.
+
+For a reference trajectory:
+
+```math
+(x_{rc},y_{rc},\theta_r)
+```
+
+define raw posture errors:
+
+```math
+\tilde{x}=x_c-x_{rc}
+```
+
+```math
+\tilde{y}=y_c-y_{rc}
+```
+
+```math
+\tilde{\theta}=\theta-\theta_r
+```
+
+These raw errors are not the best coordinates for a global control design. The lecture therefore introduces a globally invertible transformation from:
+
+```math
+(\tilde{x},\tilde{y},\tilde{\theta})
+```
+
+to:
+
+```math
+(w_1,z_1,z_2)
+```
+
+The exact matrix form in the notes is chosen so that:
+
+```math
+(w_1,z_1,z_2)\to 0
+\quad\Longrightarrow\quad
+(\tilde{x},\tilde{y},\tilde{\theta})\to 0
+```
+
+and bounded transformed errors imply bounded raw posture errors. In other words, the transformation is not decoration; it is the reason the unified design can attack both regulation and tracking with the same stabilization logic.
+
+The transformed variables satisfy comparison properties of the form:
+
+```math
+\|(w_1,z_1,z_2)\|\le \gamma_0 e^{-\lambda t}
+```
+
+which imply exponential decay of the physical posture error for positive constants.
+
+## Open-Loop Transformed Mobile-Robot Error
+
+After differentiating the transformed variables and substituting the robot kinematics, the notes isolate the subsystem:
+
+```math
+z=
+\begin{bmatrix}
+z_1\\
+z_2
+\end{bmatrix}
+```
+
+with dynamics of the form:
+
+```math
+\dot{z}=T^{-1}V-d_r
+```
+
+where:
+
+```math
+V=
+\begin{bmatrix}
+v_l\\
+v_\omega
+\end{bmatrix}
+```
+
+is the physical velocity input and `d_r` is a feedforward term built from the reference velocities and the transformed error coordinates. The handwritten derivation shows this explicitly by first obtaining equations like:
+
+```math
+\dot{z}_1=v_\omega-v_{r\omega}
+```
+
+and:
+
+```math
+\dot{z}_2
+=
+v_l(-\sin\theta\,\tilde{x}+\cos\theta\,\tilde{y})
++\text{reference terms}
+```
+
+The important structural step is:
+
+```math
+\dot{z}=T^{-1}V-d_r
+```
+
+so define a new input:
+
+```math
+u=T^{-1}V-d_r
+```
+
+Then:
+
+```math
+\dot{z}=u
+```
+
+and the actual robot velocity command can be recovered as:
+
+```math
+V=T(u+d_r)
+```
+
+This is the first half of the unification: the difficult posture-tracking problem is transformed into a simpler input-output system in `z`.
+
+## The `w_1` Dynamics and the Nonholonomic Integrator
+
+The remaining transformed coordinate has dynamics of the form:
+
+```math
+\dot{w}_1=u^TJ^Tz+f
+```
+
+where:
+
+```math
+J=
+\begin{bmatrix}
+0 & -1\\
+1 & 0
+\end{bmatrix}
+```
+
+is the constant skew-symmetric matrix, and `f` is a known feedforward/nonlinear term depending on reference motion and transformed errors.
+
+The matrix `J` satisfies:
+
+```math
+J^T=-J
+```
+
+```math
+J^TJ=I
+```
+
+```math
+\xi^TJ\xi=0,\qquad \forall \xi\in\mathbb{R}^2
+```
+
+The open-loop transformed system is therefore:
+
+```math
+\dot{w}_1=u^TJ^Tz+f
+```
+
+```math
+\dot{z}=u
+```
+
+This is similar to Brockett's nonholonomic integrator. That connection matters because it explains why restricted-mobility mobile robots are controllable but cannot be globally stabilized by an ordinary smooth time-invariant static feedback. The controller must use a more careful construction.
+
+```mermaid
+flowchart LR
+    RAW["raw posture error"] --> TR["global transformation"]
+    TR --> WZ["w1, z1, z2"]
+    WZ --> OPEN["w1dot = u^T J^T z + f; zdot = u"]
+    OPEN --> NHI["nonholonomic-integrator structure"]
+    NHI --> CTRL["auxiliary trajectory/control design"]
+```
+
+## Mobile-Robot Control Development
+
+The control objective is:
+
+```math
+(w_1,z_1,z_2)\to 0
+```
+
+The lecture defines an auxiliary desired signal:
+
+```math
+\tilde{z}=z_d-z
+```
+
+where:
+
+```math
+z_d\in\mathbb{R}^2
+```
+
+is an auxiliary error trajectory designed by the controller. The input is chosen as:
+
+```math
+u=u_a-K_z\tilde{z}
+```
+
+or equivalently as a stabilizing term plus an auxiliary command, depending on whether the notes write the error as `z_d-z` or `z-z_d`. The point is that the `z` subsystem is made to follow a designed `z_d`, while `z_d` is chosen to make the `w_1` dynamics decay.
+
+The auxiliary command has the form:
+
+```math
+u_a=
+\left(
+\frac{k_1w_1+f}{\delta_d}
+\right)Jz_d+\Omega_1z_d
+```
+
+where `\delta_d(t)` is a positive exponentially decaying signal:
+
+```math
+\delta_d=\delta_0e^{-\alpha t}
+```
+
+and `\Omega_1` is chosen to compensate terms that arise from differentiating `z_d`. The lecture notes choose `z_d` from a nonlinear oscillator-like equation so that:
+
+```math
+z_d^Tz_d=\delta_d^2
+```
+
+which means:
+
+```math
+\|z_d\|=|\delta_d|
+```
+
+Because `\delta_d` decays exponentially, the auxiliary signal also shrinks exponentially. The gain choices are then selected so that the actual `z` follows `z_d` while `w_1` is driven down.
+
+The logic is:
+
+1. Make `z` track a carefully designed shrinking auxiliary signal.
+2. Use the skew-symmetric coupling `u^TJ^Tz` to affect `w_1`.
+3. Let the auxiliary signal shrink to zero.
+4. Conclude that both `z` and `w_1` converge to zero.
+
+This avoids the impossible demand of stabilizing the nonholonomic structure with a naive smooth static law.
+
+## Mobile-Robot Lyapunov Sketch
+
+A typical Lyapunov function for the transformed mobile problem is:
+
+```math
+V=\frac{1}{2}w_1^2+\frac{1}{2}\tilde{z}^T\tilde{z}
+```
+
+or a close variant including the auxiliary signal energy. Differentiating gives:
+
+```math
+\dot{V}
+=
+w_1\dot{w}_1+\tilde{z}^T\dot{\tilde{z}}
+```
+
+After substituting the selected `u`, `u_a`, and `z_d` dynamics, the cross terms involving `J` cancel or become bounded terms dominated by gains, using:
+
+```math
+\xi^TJ\xi=0
+```
+
+The final inequality has the exam-relevant shape:
+
+```math
+\dot{V}\le -c_1w_1^2-c_2\|\tilde{z}\|^2+\text{decaying terms}
+```
+
+Since the extra terms decay exponentially through `\delta_d`, the transformed errors converge. Then the invertibility of the coordinate transformation gives convergence of the physical posture errors.
+
 ## Error Coordinates
 
 For posture-like systems, define errors in a body or transformed frame.

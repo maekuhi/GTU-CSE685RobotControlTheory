@@ -222,6 +222,54 @@ u=\ddot{q}_d+K_d\dot{e}+K_pe
 
 The inner loop cancels nonlinear dynamics; the outer loop sets tracking performance.
 
+## PID Outer-Loop Computed Torque
+
+The PD outer loop works cleanly when the model is exact and disturbances are small. Integral action is introduced when constant disturbances or steady model errors leave a residual tracking error.
+
+Define:
+
+```math
+\eta(t)=\int_0^t e(\sigma)\,d\sigma
+```
+
+Choose:
+
+```math
+u=\ddot{q}_d+K_d\dot{e}+K_pe+K_i\eta
+```
+
+The PID computed-torque law is:
+
+```math
+\tau=
+M(q)\left(
+\ddot{q}_d+K_d\dot{e}+K_pe+K_i\int_0^t e(\sigma)d\sigma
+\right)
++N(q,\dot{q})
+```
+
+With exact cancellation:
+
+```math
+\ddot{e}+K_d\dot{e}+K_pe+K_i\int_0^t e(\sigma)d\sigma=0
+```
+
+Differentiating:
+
+```math
+\dddot{e}+K_d\ddot{e}+K_p\dot{e}+K_ie=0
+```
+
+For scalar joint channels, choose a desired third-order polynomial:
+
+```math
+(s+\lambda_1)(s+\lambda_2)(s+\lambda_3)
+```
+
+and match coefficients to obtain `K_d`, `K_p`, and `K_i`.
+
+Integral action is useful, but it is not free. Large integral gains can cause overshoot, saturation, and windup.
+
 ## Approximate Model Case
 
 If only estimates are available:
@@ -237,6 +285,49 @@ then:
 ```
 
 does not perfectly produce `\ddot{q}=u`. The error dynamics contain uncertainty. This motivates robust and adaptive control.
+
+## Independent Joint PD/PID Control
+
+Independent joint control treats each joint as if it were approximately decoupled. It is simpler than computed torque, but it ignores the full nonlinear coupling unless compensation terms are added.
+
+Independent PD tracking:
+
+```math
+\tau=K_pe+K_d\dot{e}
+```
+
+Regulation form:
+
+```math
+\tau=K_p(q_d-q)-K_d\dot{q}
+```
+
+Gravity-compensated independent PD:
+
+```math
+\tau=G(q)+K_p(q_d-q)+K_d(\dot{q}_d-\dot{q})
+```
+
+Independent PID:
+
+```math
+\tau=
+K_pe+K_d\dot{e}+K_i\int_0^t e(\sigma)d\sigma
+```
+
+Gravity-compensated independent PID:
+
+```math
+\tau=
+G(q)+K_pe+K_d\dot{e}+K_i\int_0^t e(\sigma)d\sigma
+```
+
+Comparison:
+
+- computed torque cancels the nonlinear robot dynamics before applying a linear outer loop;
+- independent joint control applies classical feedback directly to each joint;
+- gravity compensation often removes the largest steady bias;
+- PID can reduce steady-state error but may still struggle with strong inertial and Coriolis coupling.
 
 ## Optimal Outer-Loop Design
 

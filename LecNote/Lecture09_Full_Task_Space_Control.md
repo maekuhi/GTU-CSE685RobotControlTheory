@@ -236,7 +236,188 @@ Task acceleration:
 \ddot{x}=J(q)\ddot{q}+\dot{J}(q,\dot{q})\dot{q}
 ```
 
-The task-space dynamics can be written in a Cartesian form involving an operational-space inertia matrix. The notes emphasize that the transformation is not just `J^{-1}` because of the `\dot{J}\dot{q}` term and because singularities matter.
+This equation is the first warning that task-space control is not obtained by simply replacing `q` with `x`. The velocity relation has only one derivative of the Jacobian hidden in it, but the acceleration relation exposes the extra term:
+
+```math
+\dot{J}(q,\dot{q})\dot{q}
+```
+
+If `J` is square and nonsingular, then:
+
+```math
+\dot{q}=J^{-1}\dot{x}
+```
+
+and:
+
+```math
+\ddot{q}=J^{-1}\left(\ddot{x}-\dot{J}\dot{q}\right)
+```
+
+Substituting this into the joint dynamics gives a task-space dynamic model. One common operational-space form is:
+
+```math
+\Lambda(q)\ddot{x}+\mu(q,\dot{q})+p(q)=F
+```
+
+where:
+
+```math
+\Lambda(q)=J^{-T}M(q)J^{-1}
+```
+
+for the square nonsingular case. The terms `\mu` and `p` collect the velocity-dependent and gravity effects after the coordinate transformation. A useful way to remember the structure is:
+
+- `M(q)` becomes a task-space inertia `\Lambda(q)`,
+- `C(q,\dot{q})\dot{q}` becomes a task-space Coriolis/centrifugal term plus contributions from `\dot{J}\dot{q}`,
+- `G(q)` becomes a task-space gravity term,
+- task-space wrench `F` maps to joint torque through `\tau=J^TF`.
+
+For redundant manipulators, the clean inverse `J^{-1}` is replaced by dynamically consistent or pseudoinverse mappings, and null-space torques may appear. Near singularities, `\Lambda` can become ill-conditioned because the robot loses the ability to generate arbitrary task accelerations or forces.
+
+```mermaid
+flowchart LR
+    JD["joint dynamics"] --> ACC["xddot = J qddot + Jdot qdot"]
+    ACC --> MAP["qddot = J^{-1}(xddot - Jdot qdot)"]
+    MAP --> CD["Cartesian dynamics"]
+    CD --> LAM["Lambda(q) xddot + mu + p = F"]
+    F["task wrench F"] --> JT["tau = J^T F"]
+```
+
+## Direct Task-Space Regulation
+
+The reference treatment separates two strategies:
+
+- kinematic task-space control: convert `x_d` into joint references and use a joint-space controller,
+- direct task-space control: put task errors directly inside the torque law.
+
+For a desired constant task point `x_d`, define:
+
+```math
+e_x=x_d-x
+```
+
+A direct task-space PD controller with gravity compensation is:
+
+```math
+\tau=J_a^T(q)K_pe_x-J_a^T(q)K_DJ_a(q)\dot{q}+G(q)
+```
+
+where `J_a` is the analytical Jacobian used for the chosen task coordinates. Since:
+
+```math
+\dot{x}=J_a(q)\dot{q}
+```
+
+the damping term may also be read as:
+
+```math
+-J_a^TK_D\dot{x}
+```
+
+The Lyapunov candidate is the natural energy:
+
+```math
+V=\frac{1}{2}\dot{q}^TM(q)\dot{q}
++
+\frac{1}{2}e_x^TK_pe_x
+```
+
+Using the skew-symmetry property of `\dot{M}-2C`, the derivative becomes:
+
+```math
+\dot{V}=-\dot{q}^TJ_a^TK_DJ_a\dot{q}
+=-\dot{x}^TK_D\dot{x}\le 0
+```
+
+If `J_a` remains full rank and the desired task point is reachable, the end-effector error converges to zero. This result is the task-space counterpart of the joint-space PD plus gravity controller.
+
+## Direct Task-Space Tracking
+
+For time-varying task trajectories, direct task-space inverse dynamics uses:
+
+```math
+\tau=M(q)u_0+C(q,\dot{q})\dot{q}+G(q)
+```
+
+which produces:
+
+```math
+\ddot{q}=u_0
+```
+
+The acceleration-level task relation is:
+
+```math
+\ddot{x}=J_a(q)u_0+\dot{J}_a(q,\dot{q})\dot{q}
+```
+
+Thus choose:
+
+```math
+u_0=J_a^\dagger
+\left[
+\ddot{x}_d
++K_D(\dot{x}_d-\dot{x})
++K_P(x_d-x)
+-\dot{J}_a\dot{q}
+\right]
+```
+
+For a square nonsingular `J_a`, the pseudoinverse reduces to the ordinary inverse. Then:
+
+```math
+\ddot{e}_x+K_D\dot{e}_x+K_Pe_x=0
+```
+
+with:
+
+```math
+e_x=x_d-x
+```
+
+This is exactly the same desired second-order error equation used in joint-space computed torque, now produced through the task-space differential kinematics.
+
+## Reference-Velocity Task-Space Form
+
+The lecture also connects task-space tracking with the filtered-error style used earlier. Define a reference task velocity:
+
+```math
+\dot{x}_r=\dot{x}_d+\Lambda_x(x_d-x)
+```
+
+and the corresponding joint reference:
+
+```math
+\dot{q}_r=J_a^\dagger(q)\dot{x}_r
+```
+
+with:
+
+```math
+\ddot{q}_r
+=
+J_a^\dagger(q)
+\left(\ddot{x}_r-\dot{J}_a(q,\dot{q})\dot{q}_r\right)
+```
+
+or the corresponding expression obtained by differentiating the chosen inverse mapping. Then a passivity-style task-space controller can be written in joint torque form:
+
+```math
+\tau=
+M(q)\ddot{q}_r
++C(q,\dot{q})\dot{q}_r
++G(q)
++J_a^T(q)K_D(\dot{x}_r-\dot{x})
+```
+
+This mirrors the joint-space controller:
+
+```math
+\tau=M\ddot{q}_r+C\dot{q}_r+G+K_D(\dot{q}_r-\dot{q})
+```
+
+but uses task-space velocity error inside the damping injection.
 
 ## Task-Space Control of Nonredundant Manipulators
 
