@@ -7,6 +7,31 @@ Reference check:
 - Checked against Ref.1 feedback-linearization and computed-torque sections.
 - Standard robot-control signs are kept consistent with `e=q_d-q`.
 
+## Big Picture
+
+Feedback linearization is the moment the robot equation becomes a design instrument. The nonlinear dynamics are not ignored; they are used. If the model is known, the controller can cancel the nonlinear terms and make the robot behave like a set of double integrators.
+
+Computed-torque control is the robot-specific version of this idea. It separates the problem into an inner nonlinear cancellation loop and an outer linear tracking loop. Elegant, powerful, and a little vain: it performs beautifully when the model is right.
+
+## Learning Path
+
+1. Group all non-acceleration dynamics into `N(q,\dot{q})`.
+2. Choose a torque input that makes `\ddot{q}=u`.
+3. Design `u` using linear tracking-error dynamics.
+4. Select gains from second-order system behavior.
+5. Recognize the weakness: exact cancellation needs an accurate model.
+
+```mermaid
+flowchart LR
+    QD["qd, qd_dot, qd_ddot"] --> OUT["outer linear controller"]
+    Q["q, qdot"] --> OUT
+    OUT --> U["u"]
+    U --> INNER["tau = M(q)u + N(q,qdot)"]
+    Q --> INNER
+    INNER --> ROBOT["robot dynamics"]
+    ROBOT --> Q
+```
+
 ## Feedback Linearization
 
 For a manipulator:
@@ -281,8 +306,3 @@ can be used to show stability, with:
 ```
 
 after using robot dynamic properties.
-
-## Relation to the Project
-
-Computed torque is the natural first project controller. It directly uses the assigned `M(q)`, `V_m(q,\dot{q})`, and `F_d` matrices and gives a clean baseline for comparison.
-

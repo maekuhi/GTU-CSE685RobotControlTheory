@@ -1,52 +1,104 @@
 # Lecture 01 - Control Theory Preliminaries
 
-Original handwritten source: `Lex/Lecture01.pdf`
+Source: handwritten lecture notes, cross-checked with the listed course reference.
 
-## Page 1 - Introduction to Control Theory
+## Big Picture
 
-Modern industrial robots are widely used in manufacturing and many practical engineering systems. The general control objective is to make a system behave according to a desired operation. In robotics, this usually means:
+Control theory begins with a deceptively simple question: how can we describe a physical system well enough that we can deliberately change its behavior? The answer in this lecture is the state. A state is not merely a list of variables; it is a compact memory of the system. Once the state and the input are known, the future is determined by the model.
 
-- Drive the robot to a desired joint or task-space position.
-- Track a desired trajectory.
-- Reject disturbances and modeling uncertainty.
-- Keep the motion stable and physically meaningful.
+This lecture builds the language used in the rest of the course:
 
-The notes introduce control theory as a set of mathematical tools used to design controllers for such systems.
+- continuous-time and discrete-time systems,
+- state-space models,
+- transfer functions,
+- nonlinear state equations,
+- norms of vectors, matrices, functions, and systems,
+- matrix definiteness and stability-related algebra.
 
-### Linear state-variable systems
+The intellectual move is from "input goes in, output comes out" toward "the internal state evolves, and the controller shapes that evolution."
 
-A linear system with state `x`, input `u`, and output `y` can be described by differential equations. The state is the minimum set of variables needed to describe the future behavior of the system when the input is known.
+## Learning Path
 
-The state-space representation is central because it applies naturally to mechanical systems.
+1. Describe physical systems using differential equations.
+2. Convert differential equations to state-space form.
+3. Derive transfer functions from state-space models.
+4. Extend the notation to nonlinear systems.
+5. Introduce norms and matrix properties needed for stability.
 
-## Page 2 - Continuous-Time Systems and Block Diagrams
+## Continuous-Time Control Systems
 
-The lecture starts with continuous-time systems. A system can be described by an input-output relation:
+A continuous-time system maps an input signal `u(t)` to an output signal `y(t)`.
 
-```math
-u(t) \rightarrow \text{system} \rightarrow y(t)
+```mermaid
+flowchart LR
+    U["input u(t)"] --> S["dynamic system"]
+    S --> Y["output y(t)"]
 ```
 
-For single-input single-output systems, the relation may be represented by a differential equation:
+For a linear single-input single-output system, the relation may be described by an ordinary differential equation:
 
 ```math
-a_n\frac{d^n y(t)}{dt^n}+a_{n-1}\frac{d^{n-1}y(t)}{dt^{n-1}}+\cdots+a_0y(t)
+a_n\frac{d^ny}{dt^n}
+a_{n-1}\frac{d^{n-1}y}{dt^{n-1}}
+\cdots
+a_1\dot{y}
+a_0y
 =
-b_m\frac{d^m u(t)}{dt^m}+\cdots+b_0u(t)
+b_m\frac{d^mu}{dt^m}
+\cdots
+b_1\dot{u}
+b_0u
 ```
 
-The note distinguishes:
+Important vocabulary:
 
 - SISO: single input, single output.
 - MIMO: multiple inputs, multiple outputs.
-- Continuous-time: variables depend on continuous `t`.
-- Linear systems: superposition holds.
+- Linear: superposition holds.
+- Time invariant: the model does not explicitly change with time.
 
-## Page 3 - State Definition and Spring-Mass Example
+## State-Space Representation
 
-The state of a system is a set of variables whose values at an initial time, together with the input, determine the future behavior.
+The state vector is the smallest set of variables needed to determine the future behavior of the system, given the future input.
 
-Example: mass-spring-damper system
+The continuous-time linear state-space model is:
+
+```math
+\dot{x}=Ax+Bu
+```
+
+```math
+y=Cx+Du
+```
+
+where:
+
+- `x` is the state vector,
+- `u` is the input,
+- `y` is the output,
+- `A` is the system matrix,
+- `B` is the input matrix,
+- `C` is the output matrix,
+- `D` is the direct feedthrough matrix.
+
+```mermaid
+flowchart LR
+    U["u"] --> B["B"]
+    B --> SUM(("sum"))
+    X["x"] --> A["A"]
+    A --> SUM
+    SUM --> INT["integrator"]
+    INT --> X
+    X --> C["C"]
+    U --> D["D"]
+    C --> SUMY(("sum"))
+    D --> SUMY
+    SUMY --> Y["y"]
+```
+
+## Spring-Mass-Damper Example
+
+Consider:
 
 ```math
 M\ddot{x}+B\dot{x}+Kx=F(t)
@@ -68,72 +120,60 @@ Then:
 \dot{x}_2=-\frac{K}{M}x_1-\frac{B}{M}x_2+\frac{1}{M}F(t)
 ```
 
-The state vector is:
+With:
 
 ```math
-X=\begin{bmatrix}x_1\\x_2\end{bmatrix}
-```
-
-## Page 4 - State-Space Form of the Spring-Mass System
-
-Using the previous example:
-
-```math
-\dot{X}=AX+Bu
-```
-
-```math
-y=CX+Du
-```
-
-For the mass-spring-damper system:
-
-```math
-A=
+X=
 \begin{bmatrix}
-0 & 1\\
--K/M & -B/M
-\end{bmatrix},
-\qquad
-B=
+x_1\\
+x_2
+\end{bmatrix}
+```
+
+the state-space form is:
+
+```math
+\dot{X}
+=
+\begin{bmatrix}
+0&1\\
+-K/M&-B/M
+\end{bmatrix}X
++
 \begin{bmatrix}
 0\\
 1/M
-\end{bmatrix}
+\end{bmatrix}F
 ```
 
 If the output is position:
 
 ```math
-C=\begin{bmatrix}1&0\end{bmatrix},
-\qquad D=0
+y=
+\begin{bmatrix}
+1&0
+\end{bmatrix}X
 ```
 
-This is called the state-space form.
+## State Variables Are Not Unique
 
-## Page 5 - Alternative State Choices
-
-The same physical system can be represented using different state coordinates. For example, another choice of state may be:
+The same physical system can be represented with different state variables. For example:
 
 ```math
 \bar{x}_1=x,\qquad \bar{x}_2=x+\dot{x}
 ```
 
-Then the state equations change, but the physical input-output behavior remains the same. This emphasizes that a state representation is not unique.
+This gives a different state-space realization, but the physical input-output behavior is unchanged. State variables are coordinates for describing the system; different coordinates can describe the same motion.
 
-The notes show that different state variables can lead to a different `A`, `B`, `C`, and `D`, while representing the same physical process.
+## General Differential Equation to State Space
 
-## Page 6 - General nth-Order Differential Equation to State Space
-
-For an nth-order differential equation:
+For:
 
 ```math
-\frac{d^n y}{dt^n}
-a_{n-1}\frac{d^{n-1}y}{dt^{n-1}}
-\cdots+a_1\dot{y}+a_0y=u
+y^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1\dot{y}+a_0y=u
 ```
 
-define phase variables:
+choose:
 
 ```math
 x_1=y,\quad x_2=\dot{y},\quad \ldots,\quad x_n=y^{(n-1)}
@@ -142,24 +182,27 @@ x_1=y,\quad x_2=\dot{y},\quad \ldots,\quad x_n=y^{(n-1)}
 Then:
 
 ```math
-\dot{x}_1=x_2,\quad \dot{x}_2=x_3,\quad \ldots,\quad \dot{x}_{n-1}=x_n
+\dot{x}_1=x_2,\quad
+\dot{x}_2=x_3,\quad
+\ldots,\quad
+\dot{x}_{n-1}=x_n
 ```
 
 ```math
 \dot{x}_n=-a_0x_1-a_1x_2-\cdots-a_{n-1}x_n+u
 ```
 
-This gives the controllable canonical form.
+This is the controllable canonical form.
 
-## Page 7 - Double Integrator Example
+## Double Integrator
 
-For the system:
+The simplest motion model is:
 
 ```math
 \ddot{y}=u
 ```
 
-choose:
+Choose:
 
 ```math
 x_1=y,\qquad x_2=\dot{y}
@@ -168,19 +211,12 @@ x_1=y,\qquad x_2=\dot{y}
 Then:
 
 ```math
-\dot{x}_1=x_2,\qquad \dot{x}_2=u
-```
-
-So:
-
-```math
-\dot{x}
-=
+\dot{x}=
 \begin{bmatrix}
 0&1\\
 0&0
 \end{bmatrix}x
-
++
 \begin{bmatrix}
 0\\
 1
@@ -188,14 +224,17 @@ So:
 ```
 
 ```math
-y=\begin{bmatrix}1&0\end{bmatrix}x
+y=
+\begin{bmatrix}
+1&0
+\end{bmatrix}x
 ```
 
-This double-integrator structure will later appear after computed-torque feedback linearization.
+This model reappears later when computed-torque control cancels robot nonlinearities and leaves joint acceleration as the command input.
 
-## Page 8 - Transfer Function Derivation
+## Transfer Function From State Space
 
-For the LTI state-space system:
+Starting from:
 
 ```math
 \dot{x}=Ax+Bu,\qquad y=Cx+Du
@@ -213,11 +252,13 @@ Assuming zero initial condition:
 (sI-A)X(s)=BU(s)
 ```
 
+so:
+
 ```math
 X(s)=(sI-A)^{-1}BU(s)
 ```
 
-Substitute into the output equation:
+Substitute into the output:
 
 ```math
 Y(s)=\left[C(sI-A)^{-1}B+D\right]U(s)
@@ -226,48 +267,26 @@ Y(s)=\left[C(sI-A)^{-1}B+D\right]U(s)
 Therefore:
 
 ```math
-G(s)=\frac{Y(s)}{U(s)}=C(sI-A)^{-1}B+D
+G(s)=\frac{Y(s)}{U(s)}
+=
+C(sI-A)^{-1}B+D
 ```
 
-## Page 9 - Block Diagram Representation
-
-The transfer function can be represented by a block diagram. The system state-space representation can be pictured as:
-
-- `B` maps input into the state derivative.
-- `1/s` integrates state derivatives into states.
-- `A` feeds state back into the derivative.
-- `C` maps states into output.
-- `D` gives direct feedthrough.
-
-The final transfer relation is:
-
-```math
-Y(s)=G(s)U(s)
-```
-
-## Page 10 - Double Integrator Transfer Function and Discrete Time
-
-Example:
+For the double integrator:
 
 ```math
 \ddot{y}=Ku
 ```
 
-Taking the Laplace transform with zero initial condition:
+the transfer function is:
 
 ```math
-s^2Y(s)=KU(s)
+G(s)=\frac{K}{s^2}
 ```
 
-Therefore:
+## Discrete-Time Systems
 
-```math
-G(s)=\frac{Y(s)}{U(s)}=\frac{K}{s^2}
-```
-
-### Discrete-time systems
-
-In discrete time, the system is described at sample instants:
+In discrete time:
 
 ```math
 x(k+1)=Ax(k)+Bu(k)
@@ -283,9 +302,11 @@ The discrete transfer function is:
 G(z)=C(zI-A)^{-1}B+D
 ```
 
-## Page 11 - Nonlinear State-Variable Systems
+Discrete-time notation matters because real simulations and digital controllers run at sampled instants, even when the original design is continuous.
 
-Many systems, especially robots, are nonlinear. A continuous-time nonlinear system is:
+## Nonlinear State-Space Systems
+
+Many physical systems are nonlinear:
 
 ```math
 \dot{x}=f(x,u,t)
@@ -295,25 +316,29 @@ Many systems, especially robots, are nonlinear. A continuous-time nonlinear syst
 y=h(x,u,t)
 ```
 
-For autonomous nonlinear systems:
+Autonomous nonlinear system:
 
 ```math
 \dot{x}=f(x)
 ```
 
-For nonautonomous systems:
+Nonautonomous nonlinear system:
 
 ```math
 \dot{x}=f(x,t)
 ```
 
-The notes emphasize that linear state-space tools are not enough for general robot dynamics because the equations depend on `q`, `\dot{q}`, and nonlinear trigonometric terms.
+A useful control-affine form is:
 
-## Page 12 - Examples of Nonlinear Systems
+```math
+\dot{x}=f(x)+g(x)u
+```
+
+Robotic systems naturally lead to nonlinear state-space models because inertia, Coriolis terms, and trigonometric geometry depend on configuration and velocity.
+
+## Nonlinear Examples
 
 ### Damped pendulum
-
-The pendulum equation is:
 
 ```math
 \ddot{y}+b\dot{y}+\sin(y)=0
@@ -332,99 +357,49 @@ Then:
 ```
 
 ```math
-\dot{x}_2=-b x_2-\sin(x_1)
+\dot{x}_2=-bx_2-\sin(x_1)
 ```
 
-This is nonlinear due to `\sin(x_1)`.
+The sine term makes the system nonlinear.
 
-### Van der Pol oscillator
+### Van der Pol type oscillator
 
-The notes also mention a nonlinear oscillator of Van der Pol type, where the damping term depends on the state. It illustrates that nonlinear systems can have behavior not captured by linear systems.
+The lecture also uses nonlinear oscillator examples to show that nonlinear systems can have behavior impossible to see from a constant matrix `A` alone.
 
-## Page 13 - First-Order Linear System Driven by Nonlinear Terms
+## Norms
 
-The notes give an example of a nonlinear-time or nonlinear-state system:
+Norms measure size. For:
 
 ```math
-\dot{x}=A(t)x+G(x)u
+x=
+\begin{bmatrix}
+x_1&x_2&\cdots&x_n
+\end{bmatrix}^T
 ```
 
-or a similar form in which the linear part and nonlinear input coupling are separated.
-
-This is useful because many nonlinear systems can be written as:
+common vector norms are:
 
 ```math
-\dot{x}=f(x)+g(x)u
-```
-
-Such systems are called control-affine. Robot dynamics often become control-affine once the state is chosen as `x=[q^T,\dot{q}^T]^T`.
-
-## Page 14 - Beginning of Stability Theory
-
-The lecturer transitions to stability theory with the main question:
-
-What happens to a system after a small change in initial condition or after a small disturbance?
-
-Stability asks whether the system remains near an equilibrium or desired behavior.
-
-The note introduces:
-
-- Norms and distances.
-- Positive definite functions.
-- Equilibrium points.
-- Lyapunov-style reasoning.
-
-## Page 15 - Common Norms
-
-For a vector:
-
-```math
-x=\begin{bmatrix}x_1&x_2&\cdots&x_n\end{bmatrix}^T
-```
-
-common norms are:
-
-```math
-\|x\|_1=\sum_{i=1}^n |x_i|
+\|x\|_1=\sum_i |x_i|
 ```
 
 ```math
-\|x\|_2=\left(\sum_{i=1}^n x_i^2\right)^{1/2}
+\|x\|_2=\sqrt{x^Tx}
 ```
 
 ```math
-\|x\|_p=\left(\sum_{i=1}^n |x_i|^p\right)^{1/p}
+\|x\|_p=\left(\sum_i |x_i|^p\right)^{1/p}
 ```
 
 ```math
 \|x\|_\infty=\max_i |x_i|
 ```
 
-Example:
+In finite-dimensional vector spaces, all norms are equivalent: if a vector is bounded in one norm, it is bounded in the others.
 
-```math
-x=\begin{bmatrix}1\\-2\\3\end{bmatrix}
-```
+## Matrix Norms
 
-Then:
-
-```math
-\|x\|_1=6,\qquad \|x\|_2=\sqrt{14},\qquad \|x\|_\infty=3
-```
-
-## Page 16 - Equivalence of Norms
-
-In finite-dimensional vector spaces, all norms are equivalent. This means there exist positive constants `k_1` and `k_2` such that:
-
-```math
-k_1\|x\|_a \le \|x\|_b \le k_2\|x\|_a
-```
-
-This is important because proving boundedness in one norm implies boundedness in another norm.
-
-### Induced matrix norm
-
-For a matrix `A`, an induced matrix norm is:
+An induced matrix norm is:
 
 ```math
 \|A\|=\max_{x\neq 0}\frac{\|Ax\|}{\|x\|}
@@ -433,10 +408,8 @@ For a matrix `A`, an induced matrix norm is:
 It satisfies:
 
 ```math
-\|Ax\|\le \|A\|\,\|x\|
+\|Ax\|\le \|A\|\|x\|
 ```
-
-## Page 17 - Matrix Norm Examples
 
 Common matrix norms:
 
@@ -444,13 +417,9 @@ Common matrix norms:
 \|A\|_\infty=\max_i\sum_j |a_{ij}|
 ```
 
-maximum absolute row sum.
-
 ```math
 \|A\|_1=\max_j\sum_i |a_{ij}|
 ```
-
-maximum absolute column sum.
 
 ```math
 \|A\|_2=\sqrt{\lambda_{\max}(A^TA)}
@@ -459,54 +428,31 @@ maximum absolute column sum.
 For symmetric matrices:
 
 ```math
-\|A\|_2=\max_i |\lambda_i(A)|
+\|A\|_2=\max_i|\lambda_i(A)|
 ```
 
-The page includes an example matrix and computes row/column norm quantities.
+## Function and System Norms
 
-## Page 18 - Function Norms
-
-For a function `f(t)`, uniform continuity and boundedness are discussed.
-
-A function `f(t)` is uniformly continuous if for every `\epsilon>0`, there exists a `\delta>0` such that:
+For a function:
 
 ```math
-|t_2-t_1|<\delta \Rightarrow |f(t_2)-f(t_1)|<\epsilon
+\|f\|_p=
+\left(\int_{t_0}^{t_1}\|f(t)\|^pdt\right)^{1/p}
 ```
 
-This condition is important later for Barbalat's lemma.
-
-## Page 19 - Function Spaces and Examples
-
-For vector-valued functions:
-
-```math
-f(t)=\begin{bmatrix}f_1(t)\\f_2(t)\\\vdots\\f_n(t)\end{bmatrix}
-```
-
-an `L_p` norm can be written as:
-
-```math
-\|f\|_p=\left(\int_{t_0}^{t_1}\|f(t)\|^pdt\right)^{1/p}
-```
-
-For `p=\infty`:
+and:
 
 ```math
 \|f\|_\infty=\max_{t\in[t_0,t_1]}\|f(t)\|
 ```
 
-Examples in the notes compare constant, exponential, and sinusoidal functions.
-
-## Page 20 - System Norms and BIBO Stability
-
-The notes define a system operator `H` that maps input `u(t)` to output `y(t)`:
+For a system operator `H`:
 
 ```math
 y=Hu
 ```
 
-The induced gain is:
+the induced system gain is:
 
 ```math
 \|H\|=\sup_{u\neq 0}\frac{\|Hu\|}{\|u\|}
@@ -518,47 +464,29 @@ Bounded-input bounded-output stability means:
 \|u\|<\infty \Rightarrow \|y\|<\infty
 ```
 
-For LTI systems, BIBO stability relates to the impulse response being absolutely integrable.
+## Matrix Definiteness
 
-## Page 21 - Input-Output Stability for LTI Systems
+For a symmetric matrix `A`:
 
-For a linear system:
-
-```math
-y(t)=\int_{-\infty}^{t}h(t-\tau)u(\tau)d\tau
-```
-
-If the impulse response is integrable, the system is BIBO stable:
-
-```math
-\int_0^\infty |h(\tau)|d\tau<\infty
-```
-
-The page shows examples of stable and unstable impulse responses, including decaying exponentials and nondecaying/unstable modes.
-
-## Page 22 - Matrix Properties
-
-Definitions:
-
-### Positive definite matrix
+Positive definite:
 
 ```math
 x^TAx>0,\qquad \forall x\neq 0
 ```
 
-### Positive semidefinite matrix
+Positive semidefinite:
 
 ```math
 x^TAx\ge 0,\qquad \forall x
 ```
 
-### Negative definite matrix
+Negative definite:
 
 ```math
 x^TAx<0,\qquad \forall x\neq 0
 ```
 
-### Skew-symmetric matrix
+Skew-symmetric:
 
 ```math
 A^T=-A
@@ -570,23 +498,7 @@ For skew-symmetric `A`:
 x^TAx=0
 ```
 
-This skew-symmetric property is crucial for robot dynamics.
-
-## Page 23 - Eigenvalue Conditions and Matrix Tests
-
-For a real symmetric matrix `A`, the following are equivalent:
-
-- `A` is positive definite.
-- All eigenvalues of `A` are positive.
-- `x^TAx>0` for all nonzero `x`.
-
-For positive semidefinite matrices, all eigenvalues are nonnegative.
-
-The page also mentions tests such as principal minors and matrix inequalities.
-
-## Page 24 - Matrix Example
-
-An example matrix is checked for positive definiteness by evaluating eigenvalues and/or principal minors.
+For a real symmetric matrix, positive definiteness is equivalent to all eigenvalues being positive.
 
 For a `2 x 2` symmetric matrix:
 
@@ -604,15 +516,7 @@ positive definiteness requires:
 a>0,\qquad ad-b^2>0
 ```
 
-The example reinforces how to check if a matrix can be used as a Lyapunov weight matrix.
+## What to Remember
 
-## Relation to the Project
-
-Lecture 1 gives the mathematical setup for the Matlab project:
-
-- The robot simulation state will be `x=[q^T,\dot{q}^T]^T`.
-- Computed-torque control turns robot tracking into double-integrator-like error dynamics.
-- Norms will be used to measure tracking error.
-- Positive definite gain matrices are needed for controller stability.
-- Skew-symmetric matrix properties will later simplify Lyapunov proofs.
+This lecture gives the grammar of the course. State-space models say how systems evolve; transfer functions say how linear systems transform inputs into outputs; norms and matrix definiteness give us the language to discuss size, boundedness, and stability. The later robot controllers are not separate from this lecture. They are this lecture wearing more geometry.
 

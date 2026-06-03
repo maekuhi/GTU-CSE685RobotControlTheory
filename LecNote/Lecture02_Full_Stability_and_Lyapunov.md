@@ -7,6 +7,31 @@ Reference check:
 - Checked against Ref.1 stability/Lyapunov material listed in `Table of Contents.pdf`.
 - The handwritten lecture order is kept as primary. Ref.1 is used only to confirm definitions and standard theorem statements.
 
+## Big Picture
+
+Stability theory is the part of control that asks whether our mathematical promises survive time. It is not enough for a controller to look clever at the instant it is written down; the closed-loop system must stay near what we want, converge when required, and remain bounded when the world is imperfect.
+
+This lecture introduces Lyapunov theory, which is the art of proving stability without solving the differential equation. That is the great trick: instead of tracking every trajectory directly, we build an energy-like scalar function and show that the system cannot climb uphill forever.
+
+## Learning Path
+
+1. Define equilibrium points.
+2. Distinguish stability, convergence, asymptotic stability, and exponential stability.
+3. Introduce boundedness and ultimate boundedness.
+4. Build Lyapunov functions.
+5. Use LaSalle, passivity, Bellman-Gronwall, and Barbalat as supporting tools.
+
+```mermaid
+flowchart TD
+    A["system dynamics"] --> B["equilibrium point"]
+    B --> C["choose Lyapunov function V"]
+    C --> D["compute Vdot"]
+    D --> E{"Vdot sign"}
+    E -->|"<= 0"| F["stability / invariance tools"]
+    E -->|"< 0"| G["asymptotic stability"]
+    E -->|"quadratic decay"| H["exponential stability"]
+```
+
 ## Equilibrium Points
 
 For a nonlinear system:
@@ -362,8 +387,3 @@ In control proofs, we often show:
 2. A signal like `r(t)` is square integrable.
 3. `\dot{r}(t)` is bounded, so `r(t)` is uniformly continuous.
 4. Therefore `r(t)\to 0`.
-
-## Relation to the Project
-
-Lecture 02 is needed for the report explanations of all project controllers. Computed torque uses linear stability of error dynamics. PD plus gravity, robust control, and adaptive control use Lyapunov functions, Barbalat, LaSalle, and boundedness arguments.
-

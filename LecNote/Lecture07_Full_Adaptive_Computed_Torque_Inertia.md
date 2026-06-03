@@ -7,7 +7,31 @@ Reference check:
 - Checked against Ref.1 adaptive-control sections around adaptive computed-torque and inertia-related approaches.
 - Ref.1 notation is not copied blindly. The lecture convention `e=q_d-q` is used consistently below.
 
-## Page 1 - Motivation for Adaptive Control
+## Big Picture
+
+Adaptive control is what happens when the robot model is structurally known but numerically uncertain. We keep the physics, replace unknown constants by estimates, and update those estimates while the robot moves.
+
+The clever point is that adaptation is not tuning by wishful thinking. The update law is designed from the Lyapunov derivative so that parameter-error terms cancel rather than grow. Tracking can converge even when the estimated parameters do not become the true physical parameters; the robot may learn enough to behave well without learning everything.
+
+## Learning Path
+
+1. Express robot dynamics in a linear-in-parameters form.
+2. Replace unknown parameters by estimates.
+3. Add tracking feedback.
+4. Build a Lyapunov function with both tracking error and parameter error.
+5. Choose the parameter update law to cancel mixed terms.
+
+```mermaid
+flowchart TD
+    DYN["robot dynamics"] --> REG["Y(q,qdot,qr_dot,qr_ddot) theta"]
+    REG --> EST["replace theta by theta_hat"]
+    EST --> CTRL["adaptive torque"]
+    CTRL --> ERR["filtered error r"]
+    ERR --> LYAP["V = tracking energy + parameter error energy"]
+    LYAP --> UPDATE["choose theta_hat_dot from Vdot"]
+```
+
+## Motivation for Adaptive Control
 
 Adaptive control is introduced for robot manipulators with uncertain parameters.
 
@@ -33,7 +57,7 @@ The goal is:
 - keep all closed-loop signals bounded,
 - possibly make parameter estimates converge if the trajectory is sufficiently exciting.
 
-## Page 2 - Linear Parameterization
+## Linear Parameterization
 
 Robot dynamics can be written as:
 
@@ -55,7 +79,7 @@ Y(q,\dot{q},\dot{q}_r,\ddot{q}_r)\theta
 
 The important property is linearity in unknown parameters, not linearity in the states.
 
-## Page 3 - Adaptive Computed-Torque Control
+## Adaptive Computed-Torque Control
 
 The lecture first presents adaptive control by a computed-torque approach.
 
@@ -79,7 +103,7 @@ or equivalently:
 
 plus feedback terms depending on the exact derivation.
 
-## Page 4 - Lyapunov Candidate With Parameter Error
+## Lyapunov Candidate With Parameter Error
 
 Define parameter error:
 
@@ -101,7 +125,7 @@ where:
 
 The matrix `P` is often obtained from a Lyapunov equation for the chosen linear error dynamics.
 
-## Page 5 - Choosing the Adaptation Law
+## Choosing the Adaptation Law
 
 The derivative of `V` contains a mixed term involving:
 
@@ -129,7 +153,7 @@ With this choice:
 
 for some `Q=Q^T>0`.
 
-## Page 6 - Important Observations
+## Important Observations
 
 Adaptive control may guarantee tracking convergence without guaranteeing exact parameter convergence.
 
@@ -143,7 +167,7 @@ Tracking convergence usually requires:
 
 Parameter convergence requires extra excitation conditions.
 
-## Page 7 - Inertia-Related Adaptive Control
+## Inertia-Related Adaptive Control
 
 The lecture then moves to an inertia-related or Slotine-Li style design.
 
@@ -175,7 +199,7 @@ and:
 \ddot{q}_r=\ddot{q}_d+\Lambda\dot{e}
 ```
 
-## Page 8 - Adaptive Inertia-Related Controller
+## Adaptive Inertia-Related Controller
 
 Using the regressor:
 
@@ -201,7 +225,7 @@ with sign matched to `r=\dot{q}_r-\dot{q}`. This form is selected so that the cl
 
 after substitution.
 
-## Page 9 - Lyapunov Function for Inertia-Related Adaptive Control
+## Lyapunov Function for Inertia-Related Adaptive Control
 
 Choose:
 
@@ -233,7 +257,7 @@ and robot skew-symmetry:
 r^T\left(\frac{1}{2}\dot{M}-V_m\right)r=0
 ```
 
-## Page 10 - Adaptation Law
+## Adaptation Law
 
 The derivative can be arranged as:
 
@@ -273,7 +297,7 @@ Thus:
 \dot{V}=-r^TK_r r\le 0
 ```
 
-## Page 11 - Boundedness and Persistency of Excitation
+## Boundedness and Persistency of Excitation
 
 From:
 
@@ -307,20 +331,3 @@ e(t)\to 0
 ```
 
 However, parameter convergence requires persistency of excitation.
-
-## Relation to the Project
-
-This lecture is very important because the project gives an explicit uncertain parameter vector:
-
-```math
-\theta=
-[\beta_1,\beta_2,\beta_3,p_1,p_2,p_3,f_{d1},f_{d2},f_{d3}]^T
-```
-
-If adaptive control is chosen as one project controller, we need either:
-
-1. derive the exact regressor `Y` for the assigned 3-DOF dynamics, or
-2. implement a carefully justified estimated-dynamics version and explain how it relates to the linearly parameterized form.
-
-The first option is academically stronger.
-

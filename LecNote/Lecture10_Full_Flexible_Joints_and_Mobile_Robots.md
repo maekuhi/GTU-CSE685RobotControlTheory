@@ -4,8 +4,32 @@ Original handwritten source: `Lex/lecture10.pdf`
 
 Reference check:
 
-- Flexible/elastic joint material checked against Ref.2 elastic-joint pages listed in `Table of Contents.pdf`.
+- Flexible/elastic joint material checked against the relevant Ref.2 elastic-joint section listed in `Table of Contents.pdf`.
 - Wheeled mobile robot material was marked `/?`; handwritten notes are primary, with standard nonholonomic robot models used for verification.
+
+## Big Picture
+
+This lecture widens the course beyond rigid manipulators. Flexible joints show what happens when the actuator and the link are not the same coordinate. Wheeled mobile robots show what happens when motion is constrained by rolling geometry rather than by ordinary joint actuation.
+
+The shared lesson is that control design is never independent of mechanics. A spring in a joint and a no-side-slip wheel constraint both change what the controller is allowed to accomplish.
+
+## Learning Path
+
+1. Separate motor coordinates from link coordinates in elastic-joint robots.
+2. See how joint stiffness creates higher-order dynamics.
+3. Understand why rigid-joint controllers may fail on flexible systems.
+4. Model wheeled mobile robots with nonholonomic constraints.
+5. Design posture and tracking errors in body-frame coordinates.
+
+```mermaid
+flowchart TD
+    COURSE["robot control beyond rigid manipulators"] --> FLEX["elastic joints"]
+    COURSE --> MOBILE["wheeled mobile robots"]
+    FLEX --> SPRING["spring torque K(theta-q)"]
+    FLEX --> HIGHER["higher-order dynamics"]
+    MOBILE --> NONHOL["nonholonomic no-side-slip constraint"]
+    MOBILE --> BODY["body-frame tracking errors"]
+```
 
 ## Part A - Flexible and Elastic Joint Manipulators
 
@@ -217,8 +241,3 @@ or:
 ```
 
 outside the desired equilibrium.
-
-## Relation to the Project
-
-This lecture is mostly final-exam material rather than direct project material. The project is a rigid 3-DOF manipulator, not a flexible-joint or mobile robot system. Still, the same logic appears: model structure, transformed errors, and Lyapunov-based controller design.
-

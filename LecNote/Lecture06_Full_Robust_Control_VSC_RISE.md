@@ -10,6 +10,31 @@ Reference check:
 - Robust control, variable-structure control, and RISE were marked as `/?` or lecture-based in the table of contents.
 - The notes below follow the handwritten material and standard Lyapunov sign/bounding logic.
 
+## Big Picture
+
+Robust control begins where perfect modeling ends. If computed torque says "I know the robot exactly," robust control says "I know what I do not know, and I can dominate it." The lecture develops switching and sign-based ideas that force the filtered tracking error toward zero despite bounded uncertainty.
+
+The price is practical: discontinuous control can chatter. The later RISE idea softens that price by integrating sign information, trying to keep robustness without making the applied torque violently discontinuous.
+
+## Learning Path
+
+1. Write the model uncertainty as a bounded disturbance-like term.
+2. Use filtered error as the sliding variable.
+3. Add a robust term that dominates uncertainty in the Lyapunov derivative.
+4. Replace pure sign control by saturation when chattering is a concern.
+5. Extend the idea to RISE by integrating sign-error information.
+
+```mermaid
+flowchart LR
+    MODEL["nominal robot model"] --> UNC["uncertainty Delta"]
+    UNC --> ROBUST["robust term v_r"]
+    R["filtered error r"] --> ROBUST
+    ROBUST --> VDOT["Vdot <= - damping + uncertainty - robust term"]
+    VDOT --> STABLE["boundedness / convergence"]
+    ROBUST --> CHAT["possible chattering"]
+    CHAT --> SAT["saturation or RISE"]
+```
+
 ## Robust Control Motivation
 
 Computed torque assumes the exact model:
@@ -335,8 +360,3 @@ Under the assumptions:
 - signals remain bounded,
 - filtered errors converge,
 - tracking error converges.
-
-## Relation to the Project
-
-Lecture 06 supports a robust/sliding-mode project controller. RISE is more advanced and could be discussed as an extension, but a saturation-based sliding/robust controller is easier to implement and explain reliably in the Matlab project.
-

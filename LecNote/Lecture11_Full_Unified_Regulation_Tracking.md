@@ -7,6 +7,30 @@ Reference check:
 - The table of contents marks this lecture as `/?`.
 - This file follows the handwritten lecture notes and checks formulas against standard transformed-error and mechanical-system control logic.
 
+## Big Picture
+
+Regulation and tracking look different on the surface: one aims for a fixed point, the other follows a moving target. This lecture shows that both can be treated as stabilization problems after the right error variables are chosen.
+
+That is the quiet power of coordinate design. If the error system is built intelligently, tracking becomes regulation of the error, and the same Lyapunov machinery can do the heavy lifting.
+
+## Learning Path
+
+1. Define regulation and tracking objectives.
+2. Transform physical errors into useful coordinates.
+3. Derive open-loop error dynamics.
+4. Add auxiliary variables for layered control design.
+5. Use Lyapunov functions to prove convergence.
+
+```mermaid
+flowchart LR
+    TASK["regulation or tracking task"] --> ERR["define transformed error"]
+    ERR --> DYN["derive error dynamics"]
+    DYN --> AUX["introduce auxiliary variables"]
+    AUX --> CTRL["choose stabilizing control"]
+    CTRL --> LYAP["Lyapunov proof"]
+    LYAP --> CONV["error convergence"]
+```
+
 ## Main Topic
 
 The lecture presents a unified way to treat regulation and tracking problems, especially for robotic or mechanical systems where the error dynamics can be transformed into a useful form.
@@ -229,14 +253,3 @@ In stronger cases:
 ```
 
 for positive constants `c,\lambda`.
-
-## Relation to the Project
-
-This lecture is conceptually related to the project because the project is a tracking problem. In the report, each controller can be explained using the same unified pattern:
-
-1. define tracking error,
-2. rewrite closed-loop error dynamics,
-3. choose gains/control terms,
-4. verify stability,
-5. compare simulation performance.
-

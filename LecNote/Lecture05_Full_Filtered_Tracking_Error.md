@@ -7,6 +7,33 @@ Reference check:
 - The table of contents marks filtered tracking error as `/?`.
 - This file follows the handwritten lecture notes and checks the result against standard robot adaptive/robust-control derivations.
 
+## Big Picture
+
+Filtered tracking error is a small definition with large consequences. Instead of controlling position error and velocity error separately, we combine them into one signal:
+
+```math
+r=\dot{e}+\Lambda e
+```
+
+If this signal goes to zero, the tracking error behaves like a stable first-order system. That is why robust and adaptive robot controllers so often chase `r`: it is a neat doorway from complicated second-order dynamics to a clean convergence argument.
+
+## Learning Path
+
+1. Define position tracking error.
+2. Combine position and velocity error into a filtered error.
+3. Show that `r=0` implies exponential decay of `e`.
+4. Express robot dynamics in terms of `r`.
+5. Use the inertia and skew-symmetry properties to build Lyapunov proofs.
+
+```mermaid
+flowchart TD
+    E["e = qd - q"] --> R["r = edot + Lambda e"]
+    R --> FILTER["stable filter edot + Lambda e = r"]
+    FILTER --> CONV["r -> 0 implies e -> 0"]
+    R --> LYAP["V = 1/2 r^T M r"]
+    LYAP --> PROOF["robot skew-symmetry simplifies Vdot"]
+```
+
 ## Tracking Error
 
 The lecture uses:
@@ -227,14 +254,3 @@ r^T\left(\frac{1}{2}\dot{M}-V_m\right)r=0
 ```
 
 This cancellation is why filtered-error coordinates are so common in robot robust/adaptive control.
-
-## Relation to the Project
-
-Filtered tracking error is probably the most important bridge between the basic computed-torque controller and advanced controllers. If we implement robust or adaptive control, the project should define and plot:
-
-```math
-r=\dot{e}+\Lambda e
-```
-
-in addition to position error.
-

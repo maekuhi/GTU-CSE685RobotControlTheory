@@ -4,8 +4,33 @@ Original handwritten source: `Lex/lecture09.pdf`
 
 Reference check:
 
-- Checked against Ref.2 task-space control pages listed in `Table of Contents.pdf`.
+- Checked against the relevant Ref.2 task-space control section listed in `Table of Contents.pdf`.
 - Some table entries were marked `/?`; handwritten lecture notes remain primary.
+
+## Big Picture
+
+Joint-space control asks the robot joints to behave. Task-space control asks the hand of the robot to behave. That shift sounds small until the Jacobian enters: now the controller must translate between the space where the task is specified and the space where the actuators actually live.
+
+This lecture is about that translation. The Jacobian is the bridge, its inverse is useful when it exists, its pseudoinverse helps when the bridge is wider than the road, and its singularities remind us that geometry can be unforgiving.
+
+## Learning Path
+
+1. Define task variables through direct kinematics.
+2. Use the Jacobian to relate joint and task velocities.
+3. Solve inverse velocity kinematics using inverse or pseudoinverse Jacobians.
+4. Use null-space motion for redundant manipulators.
+5. Connect task-space forces to joint torques through `J^T`.
+
+```mermaid
+flowchart LR
+    Q["joint space q"] --> H["x = h(q)"]
+    H --> X["task space x"]
+    QD["qdot"] --> J["J(q)"]
+    J --> XD["xdot = J qdot"]
+    XD --> INV["inverse / pseudoinverse"]
+    INV --> QCMD["joint velocity command"]
+    F["task force F"] --> JT["tau = J^T F"]
+```
 
 ## Motivation
 
@@ -242,8 +267,3 @@ Task-space stability depends on:
 - correct handling of `\dot{J}\dot{q}`,
 - avoiding or damping singularities,
 - consistency between task-space force and joint torque.
-
-## Relation to the Project
-
-The term project gives a joint-level desired trajectory, so task-space control is not required for the main implementation. However, task-space ideas can be useful for optional plots of end-effector motion for the 3-DOF planar robot.
-

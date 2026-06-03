@@ -7,6 +7,30 @@ Reference check:
 - Checked against Ref.2 kinematics/dynamics pages and Ref.1 Lagrange/robot-equation properties.
 - The notes below follow the handwritten sequence and use the references only to verify standard notation.
 
+## Big Picture
+
+Robot modeling has two halves. Kinematics tells us where the robot is; dynamics tells us what it takes to move it. Kinematics is geometry with joints. Dynamics is geometry with inertia, gravity, velocity coupling, and torque.
+
+The key result of this lecture is the standard manipulator equation. Once a robot is written in that form, the rest of the course can design controllers around its structure rather than around a messy pile of separate equations.
+
+## Learning Path
+
+1. Describe robot pose using coordinate frames and transformations.
+2. Map joint space to task space with direct kinematics.
+3. Differentiate kinematics to obtain the Jacobian.
+4. Derive manipulator dynamics using energy and Lagrange equations.
+5. Identify the structural properties that make robot control possible.
+
+```mermaid
+flowchart LR
+    Q["joint variables q"] --> FK["direct kinematics x=h(q)"]
+    FK --> X["task variables x"]
+    Q --> J["Jacobian J(q)"]
+    J --> XD["velocity relation xdot=J qdot"]
+    Q --> DYN["Lagrange dynamics"]
+    DYN --> EQ["M(q)qddot + C(q,qdot)qdot + G(q) + F = tau"]
+```
+
 ## Robot Manipulator Modeling
 
 Robotic manipulator modeling is divided into:
@@ -105,7 +129,7 @@ Task space:
 x\in\mathbb{R}^m
 ```
 
-The robot may be controlled in joint space or task space. The term project gives a joint-space trajectory, so joint-space control is the main project path.
+The robot may be controlled in joint space or task space. Which space is preferable depends on how the desired motion is specified.
 
 ## Differential Kinematics
 
@@ -307,16 +331,3 @@ where:
 - `\theta` is a constant parameter vector.
 
 This property is the basis of adaptive robot control.
-
-## Relation to the Project
-
-The project robot is already given in standard manipulator form. Lecture 03 tells us how to interpret and implement:
-
-- `M(q)`,
-- `V_m(q,\dot{q})`,
-- `F_d`,
-- the parameter vector,
-- the state-space simulation form.
-
-The same structural properties will be used later to justify robust and adaptive controllers.
-

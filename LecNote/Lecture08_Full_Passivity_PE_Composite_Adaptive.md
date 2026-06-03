@@ -7,7 +7,31 @@ Reference check:
 - Checked against Ref.1 sections on passivity-based adaptive controllers, general update rules, persistency of excitation, and composite adaptive control.
 - Formula signs are kept consistent with the lecture convention `e=q_d-q`.
 
-## Page 1 - Adaptive Control Based on Passivity
+## Big Picture
+
+This lecture sharpens adaptive control by looking at information flow. Passivity-based adaptation uses tracking error in an energy-consistent way. Persistency of excitation asks whether the motion contains enough information to identify parameters. Composite adaptation then adds prediction error, so the controller can learn not only from tracking failure but also from model mismatch.
+
+The lecture's main lesson is beautifully practical: good tracking and good identification are related, but they are not the same promise.
+
+## Learning Path
+
+1. Interpret adaptive robot control through passivity.
+2. Derive update laws that satisfy an energy inequality.
+3. Understand why tracking convergence does not imply parameter convergence.
+4. Define persistency of excitation.
+5. Add prediction-error and filtering ideas for composite adaptation.
+
+```mermaid
+flowchart TD
+    TRACK["tracking error r"] --> PASS["passivity update"]
+    PASS --> CTRL["adaptive controller"]
+    MODEL["filtered model regression"] --> PRED["prediction error epsilon"]
+    PRED --> COMP["composite update"]
+    CTRL --> RESULT["tracking convergence"]
+    COMP --> PARAM["improved parameter estimation when excitation exists"]
+```
+
+## Adaptive Control Based on Passivity
 
 The lecture begins with passivity-based adaptive control.
 
@@ -31,7 +55,7 @@ r=\dot{e}+\Lambda e
 
 The controller is designed so that the map from parameter error to filtered error is passive or energy bounded.
 
-## Page 2 - Passivity Integral
+## Passivity Integral
 
 The notes use an inequality of the form:
 
@@ -43,7 +67,7 @@ and choose the update law so the parameter-estimation term does not inject net e
 
 The update rule is connected to the passivity condition.
 
-## Page 3 - Passivity-Based Lyapunov Argument
+## Passivity-Based Lyapunov Argument
 
 Use:
 
@@ -74,7 +98,7 @@ so:
 \dot{V}=-r^TK_rr\le 0
 ```
 
-## Page 4 - General Adaptive Update Rule
+## General Adaptive Update Rule
 
 The notes describe a general adaptive law:
 
@@ -90,7 +114,7 @@ The update law:
 - keeps parameter estimates bounded under the Lyapunov assumptions,
 - is not guaranteed to identify true parameters unless excitation is sufficient.
 
-## Page 5 - Persistency of Excitation
+## Persistency of Excitation
 
 The lecture introduces the problem:
 
@@ -116,7 +140,7 @@ such that:
 
 for all `t`.
 
-## Page 6 - Prediction Error
+## Prediction Error
 
 The notes introduce prediction error for parameter estimation.
 
@@ -145,7 +169,7 @@ Prediction error:
 
 This error can be used for parameter adaptation.
 
-## Page 7 - Filtering for Estimation
+## Filtering for Estimation
 
 Robot dynamics contain accelerations and torques that may not be directly convenient for estimation.
 
@@ -163,7 +187,7 @@ Prediction error:
 \epsilon=\bar{\tau}-\bar{Y}\hat{\theta}
 ```
 
-## Page 8 - Filtering the Dynamics
+## Filtering the Dynamics
 
 The lecture notes show filtering of the robot dynamics through a stable filter such as:
 
@@ -191,7 +215,7 @@ into:
 
 where filtered signals are measurable or easier to compute.
 
-## Page 9 - Composite Adaptive Control
+## Composite Adaptive Control
 
 Composite adaptation uses both:
 
@@ -210,7 +234,7 @@ with sign adjusted to the convention.
 
 The tracking term helps control performance. The prediction-error term improves parameter estimation.
 
-## Page 10 - Least-Squares Estimation
+## Least-Squares Estimation
 
 The notes discuss least-squares estimation.
 
@@ -240,7 +264,7 @@ If `W^TW` is invertible:
 
 This again requires enough excitation or rank in the regressor.
 
-## Page 11 - Composite Lyapunov Argument
+## Composite Lyapunov Argument
 
 The composite adaptive proof adds a prediction-error term to the Lyapunov derivative.
 
@@ -270,7 +294,7 @@ or a similar negative semidefinite expression.
 
 This improves parameter convergence when excitation is available.
 
-## Page 12 - Example Adaptive Controller
+## Example Adaptive Controller
 
 The notes show an example adaptive controller with an update law and Lyapunov proof.
 
@@ -294,7 +318,7 @@ For composite control:
 
 The proof follows the same cancellation pattern.
 
-## Page 13 - Parameter Convergence Conditions
+## Parameter Convergence Conditions
 
 If the regressor is persistently exciting, then:
 
@@ -316,7 +340,7 @@ but:
 
 This is not a failure of the controller; it means the trajectory did not contain enough information to identify every parameter.
 
-## Pages 14-16 - Scalar Estimation Example
+## Scalar Estimation Example
 
 The notes include a scalar example with a filtered or first-order system:
 
@@ -347,13 +371,3 @@ An update law of the form:
 drives the prediction error down when `x` is sufficiently exciting.
 
 The example illustrates the same mechanism used in robot adaptive control.
-
-## Relation to the Project
-
-For the project, this lecture suggests two possible adaptive levels:
-
-1. Basic passivity-based adaptive control using `Y(q,\dot{q},\dot{q}_r,\ddot{q}_r)\hat{\theta}`.
-2. Composite adaptation if we want better parameter estimation.
-
-For a strong but manageable project, the basic passivity-based adaptive controller is the better choice. Composite adaptation can be discussed as an extension unless the project time allows full implementation.
-
