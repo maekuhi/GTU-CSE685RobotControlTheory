@@ -1,12 +1,5 @@
 # Lecture 03 - Robot Kinematics and Dynamics
 
-Original handwritten source: `Lex/Lecture02-03.pdf`, Lecture 3 portion
-
-Reference check:
-
-- Checked against Ref.2 kinematics/dynamics pages and Ref.1 Lagrange/robot-equation properties.
-- The notes below follow the handwritten sequence and use the references only to verify standard notation.
-
 ## Big Picture
 
 Robot modeling has two halves. Kinematics tells us where the robot is; dynamics tells us what it takes to move it. Kinematics is geometry with joints. Dynamics is geometry with inertia, gravity, velocity coupling, and torque.

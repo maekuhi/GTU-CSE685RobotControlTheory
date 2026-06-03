@@ -1,12 +1,5 @@
 # Lecture 04 - Feedback Linearization and Computed-Torque Control
 
-Original handwritten source: `Lex/Lecture04-05-06.pdf`, Lecture 4 portion
-
-Reference check:
-
-- Checked against Ref.1 feedback-linearization and computed-torque sections.
-- Standard robot-control signs are kept consistent with `e=q_d-q`.
-
 ## Big Picture
 
 Feedback linearization is the moment the robot equation becomes a design instrument. The nonlinear dynamics are not ignored; they are used. If the model is known, the controller can cancel the nonlinear terms and make the robot behave like a set of double integrators.

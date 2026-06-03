@@ -1,12 +1,5 @@
 # Lecture 05 - Filtered Tracking Error
 
-Original handwritten source: `Lex/Lecture04-05-06.pdf`, Lecture 5 portion
-
-Reference check:
-
-- The table of contents marks filtered tracking error as `/?`.
-- This file follows the handwritten lecture notes and checks the result against standard robot adaptive/robust-control derivations.
-
 ## Big Picture
 
 Filtered tracking error is a small definition with large consequences. Instead of controlling position error and velocity error separately, we combine them into one signal:

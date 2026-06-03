@@ -1,7 +1,5 @@
 # Lecture 01 - Control Theory Preliminaries
 
-Source: handwritten lecture notes, cross-checked with the listed course reference.
-
 ## Big Picture
 
 Control theory begins with a deceptively simple question: how can we describe a physical system well enough that we can deliberately change its behavior? The answer in this lecture is the state. A state is not merely a list of variables; it is a compact memory of the system. Once the state and the input are known, the future is determined by the model.

@@ -1,12 +1,5 @@
 # Lecture 02 - Stability and Lyapunov Theory
 
-Original handwritten source: `Lex/Lecture02-03.pdf`, Lecture 2 portion
-
-Reference check:
-
-- Checked against Ref.1 stability/Lyapunov material listed in `Table of Contents.pdf`.
-- The handwritten lecture order is kept as primary. Ref.1 is used only to confirm definitions and standard theorem statements.
-
 ## Big Picture
 
 Stability theory is the part of control that asks whether our mathematical promises survive time. It is not enough for a controller to look clever at the instant it is written down; the closed-loop system must stay near what we want, converge when required, and remain bounded when the world is imperfect.
@@ -53,6 +46,16 @@ f(x_e)=0
 
 The notes use simple second-order examples to show that equilibria are found by setting the state derivatives to zero.
 
+For stability analysis we often translate the equilibrium to the origin. If the equilibrium is `x_e`, define:
+
+```math
+z=x-x_e
+```
+
+Then studying `x\to x_e` is the same as studying `z\to 0`. This is why many theorems are stated for the origin without loss of generality.
+
+For time-varying systems, the phrase "equilibrium at `t_0`" matters because the same initial state may behave differently depending on the starting time. This is the reason uniform stability is stronger than ordinary stability: it prevents the proof from quietly depending on when the experiment begins.
+
 ## Stability Concept
 
 Stability asks whether a trajectory that starts close to an equilibrium stays close to it.
@@ -66,6 +69,15 @@ An equilibrium `x_e` is stable if for every `\epsilon>0`, there exists a `\delta
 ```
 
 The lecture drawings show a tube around the equilibrium: if the trajectory starts inside a small ball, it stays inside the larger allowed ball.
+
+The definition has two radii:
+
+- `\epsilon` is the allowed error tube.
+- `\delta` is the permitted size of the initial perturbation.
+
+The order matters. We do not first choose a convenient initial ball and then hope the trajectory behaves; for every allowed tube, however small, a suitable initial ball must exist.
+
+Stability alone does not say that the trajectory approaches the equilibrium. It only says that small initial errors remain small. A frictionless oscillator around the origin is the standard mental picture: nearby trajectories remain nearby, but they do not settle.
 
 ## Instability
 
@@ -99,6 +111,8 @@ The important distinction:
 - Convergence: the trajectory approaches the equilibrium.
 - Asymptotic stability: both properties hold.
 
+Convergence without stability is possible. A trajectory may eventually approach the equilibrium while first making a large excursion. That is not acceptable in many control problems, because the transient may violate actuator limits, safety constraints, or the validity range of the model. This is why the course treats asymptotic stability as a combined statement, not merely as `x(t)\to x_e`.
+
 ## Asymptotic Stability
 
 An equilibrium is asymptotically stable if:
@@ -118,6 +132,16 @@ Global asymptotic stability means the attraction holds for every initial conditi
 
 Local asymptotic stability only holds inside some neighborhood of the equilibrium.
 
+The set of initial conditions from which trajectories converge to the equilibrium is called the region of attraction, or domain of attraction. For a locally asymptotically stable equilibrium this set contains at least one neighborhood of the equilibrium. For a globally asymptotically stable equilibrium it is the whole state space.
+
+When using Lyapunov functions, global claims usually need more than positive definiteness. One common additional requirement is radial unboundedness:
+
+```math
+V(x)\to\infty \quad \mathrm{as}\quad \|x\|\to\infty
+```
+
+This condition prevents the Lyapunov function from hiding far-away behavior inside a bounded energy level.
+
 ## Uniform Stability and Exponential Stability
 
 Uniform stability means the stability bound can be chosen independently of the initial time `t_0`.
@@ -129,6 +153,16 @@ Uniform convergence means the time required for convergence can be chosen indepe
 ```
 
 for all allowed initial times `t_0`.
+
+For autonomous systems, ordinary local stability often behaves like uniform stability because the dynamics do not explicitly depend on time. For nonautonomous systems, the distinction is essential. A proof that works only for one starting time is weak; a controller should not become unstable simply because we start the clock later.
+
+The common hierarchy is:
+
+- stable: small initial error stays small,
+- uniformly stable: the same idea with bounds independent of `t_0`,
+- asymptotically stable: stable plus attractive,
+- uniformly asymptotically stable: uniform stability plus uniform attractivity,
+- exponentially stable: convergence is bounded by a decaying exponential.
 
 Exponential stability gives a stronger decay estimate:
 
@@ -206,6 +240,23 @@ Uniform ultimate boundedness means trajectories eventually enter a ball:
 
 This concept becomes important in robust control, where exact convergence may be replaced by convergence to a small residual set.
 
+A useful way to separate the concepts is this:
+
+- Stability is about staying near an equilibrium when starting near it.
+- Boundedness is about whether the state remains finite.
+- Ultimate boundedness is about whether the state eventually enters a fixed ball.
+- Practical stability is about making that final ball small enough for the engineering task.
+
+For a system with disturbances or modeling errors, exact convergence to zero may be impossible. A Lyapunov derivative of the form:
+
+```math
+\dot{V}\le -a\|x\|^2+b
+```
+
+with `a>0` and `b>0` usually suggests a residual set. Far from the origin, the negative quadratic term dominates and drives the state inward. Near the origin, the disturbance term may prevent further decay. This is the mathematical reason robust controllers often promise convergence to a ball rather than convergence exactly to zero.
+
+If the residual bound can be made smaller by increasing a gain or reducing an uncertainty bound, the controller gives practical stability. The art is to reduce the ball without making the control input unrealistic.
+
 ## Class K Functions
 
 A function `\alpha(r)` is class `K` if:
@@ -223,6 +274,22 @@ V(x,t)
 \le
 \alpha_2(\|x\|)
 ```
+
+A class `K` function is class `K_\infty` if it also grows without bound:
+
+```math
+\alpha(r)\to\infty
+```
+
+as `r\to\infty`. This is the comparison-function version of radial unboundedness.
+
+A class `KL` function `\beta(r,t)` behaves like a class `K` function in `r` for fixed `t`, and decreases to zero as `t\to\infty` for fixed `r`. It is often used to summarize stability and convergence in one estimate:
+
+```math
+\|x(t)\|\le \beta(\|x(t_0)\|,t-t_0)
+```
+
+This notation is compact, but the meaning is familiar: the future state is bounded by something determined by the initial error and a decaying time factor.
 
 ## Positive Definite and Negative Definite Functions
 

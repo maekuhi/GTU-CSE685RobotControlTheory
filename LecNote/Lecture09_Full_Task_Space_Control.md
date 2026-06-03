@@ -1,12 +1,5 @@
 # Lecture 09 - Task-Space Control
 
-Original handwritten source: `Lex/lecture09.pdf`
-
-Reference check:
-
-- Checked against the relevant Ref.2 task-space control section listed in `Table of Contents.pdf`.
-- Some table entries were marked `/?`; handwritten lecture notes remain primary.
-
 ## Big Picture
 
 Joint-space control asks the robot joints to behave. Task-space control asks the hand of the robot to behave. That shift sounds small until the Jacobian enters: now the controller must translate between the space where the task is specified and the space where the actuators actually live.

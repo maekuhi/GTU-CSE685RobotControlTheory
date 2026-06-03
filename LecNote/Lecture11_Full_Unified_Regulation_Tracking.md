@@ -1,12 +1,5 @@
 # Lecture 11 - Unified Solution to Regulation and Tracking Problems
 
-Original handwritten source: `Lex/lecture11.pdf`
-
-Reference check:
-
-- The table of contents marks this lecture as `/?`.
-- This file follows the handwritten lecture notes and checks formulas against standard transformed-error and mechanical-system control logic.
-
 ## Big Picture
 
 Regulation and tracking look different on the surface: one aims for a fixed point, the other follows a moving target. This lecture shows that both can be treated as stabilization problems after the right error variables are chosen.

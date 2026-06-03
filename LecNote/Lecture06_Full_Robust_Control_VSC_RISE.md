@@ -1,15 +1,5 @@
 # Lecture 06 - Robust Control, Variable-Structure Control, and RISE
 
-Original handwritten sources:
-
-- `Lex/Lecture04-05-06.pdf`, Lecture 6 portion
-- `Lex/Lecture06Suplementary.PDF`, supplementary RISE pages
-
-Reference check:
-
-- Robust control, variable-structure control, and RISE were marked as `/?` or lecture-based in the table of contents.
-- The notes below follow the handwritten material and standard Lyapunov sign/bounding logic.
-
 ## Big Picture
 
 Robust control begins where perfect modeling ends. If computed torque says "I know the robot exactly," robust control says "I know what I do not know, and I can dominate it." The lecture develops switching and sign-based ideas that force the filtered tracking error toward zero despite bounded uncertainty.

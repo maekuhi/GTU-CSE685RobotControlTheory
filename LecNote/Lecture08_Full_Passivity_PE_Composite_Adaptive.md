@@ -1,12 +1,5 @@
 # Lecture 08 - Passivity-Based Adaptive Control, Persistency of Excitation, and Composite Adaptation
 
-Original handwritten source: `Lex/lecture08.pdf`
-
-Reference check:
-
-- Checked against Ref.1 sections on passivity-based adaptive controllers, general update rules, persistency of excitation, and composite adaptive control.
-- Formula signs are kept consistent with the lecture convention `e=q_d-q`.
-
 ## Big Picture
 
 This lecture sharpens adaptive control by looking at information flow. Passivity-based adaptation uses tracking error in an energy-consistent way. Persistency of excitation asks whether the motion contains enough information to identify parameters. Composite adaptation then adds prediction error, so the controller can learn not only from tracking failure but also from model mismatch.

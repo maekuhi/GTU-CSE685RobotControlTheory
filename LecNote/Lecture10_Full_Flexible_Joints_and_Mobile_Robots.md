@@ -1,12 +1,5 @@
 # Lecture 10 - Flexible/Elastic Joints and Wheeled Mobile Robots
 
-Original handwritten source: `Lex/lecture10.pdf`
-
-Reference check:
-
-- Flexible/elastic joint material checked against the relevant Ref.2 elastic-joint section listed in `Table of Contents.pdf`.
-- Wheeled mobile robot material was marked `/?`; handwritten notes are primary, with standard nonholonomic robot models used for verification.
-
 ## Big Picture
 
 This lecture widens the course beyond rigid manipulators. Flexible joints show what happens when the actuator and the link are not the same coordinate. Wheeled mobile robots show what happens when motion is constrained by rolling geometry rather than by ordinary joint actuation.

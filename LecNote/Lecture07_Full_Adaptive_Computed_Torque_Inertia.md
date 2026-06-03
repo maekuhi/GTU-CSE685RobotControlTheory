@@ -1,12 +1,5 @@
 # Lecture 07 - Adaptive Control of Robot Manipulators
 
-Original handwritten source: `Lex/lecture07.pdf`
-
-Reference check:
-
-- Checked against Ref.1 adaptive-control sections around adaptive computed-torque and inertia-related approaches.
-- Ref.1 notation is not copied blindly. The lecture convention `e=q_d-q` is used consistently below.
-
 ## Big Picture
 
 Adaptive control is what happens when the robot model is structurally known but numerically uncertain. We keep the physics, replace unknown constants by estimates, and update those estimates while the robot moves.
