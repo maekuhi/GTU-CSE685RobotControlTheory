@@ -35,6 +35,10 @@ flowchart LR
     CHAT --> SAT["saturation or RISE"]
 ```
 
+## Textbook Guide
+
+Ref. [R1] supports the bounded-uncertainty robot-control structure, filtered-error Lyapunov analysis, and sign/saturation robust terms. The RISE supplement is primarily from the handwritten lecture material; the textbook role is to make the uncertainty-bounding logic and energy estimate clear. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Robust Control Motivation
 
 Computed torque assumes the exact model:

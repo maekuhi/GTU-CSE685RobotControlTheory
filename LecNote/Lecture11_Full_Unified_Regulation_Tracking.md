@@ -31,6 +31,10 @@ flowchart LR
     LYAP --> CONV["error convergence"]
 ```
 
+## Textbook Guide
+
+This lecture is mostly driven by the handwritten derivation. Ref. [R2] supports the mobile-robot modeling background, nonholonomic structure, and transformed posture-control viewpoint. Earlier robot-control Lyapunov patterns from [R1] explain why the same regulation/tracking proof style keeps reappearing. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Main Topic
 
 The lecture presents a unified way to treat regulation and tracking problems, especially for robotic or mechanical systems where the error dynamics can be transformed into a useful form.

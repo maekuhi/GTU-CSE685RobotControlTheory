@@ -31,6 +31,10 @@ flowchart TD
     LYAP --> UPDATE["choose theta_hat_dot from Vdot"]
 ```
 
+## Textbook Guide
+
+Ref. [R1] is the main source for adaptive computed-torque control, linear parameterization, and the Lyapunov update-law construction. Ref. [R2] is useful as a companion for passivity-based interpretations of robot adaptive control. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Motivation for Adaptive Control
 
 Adaptive control is introduced for robot manipulators with uncertain parameters.

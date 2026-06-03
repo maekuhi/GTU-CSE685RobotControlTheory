@@ -32,6 +32,10 @@ flowchart LR
     ROBOT --> Q
 ```
 
+## Textbook Guide
+
+This lecture follows the computed-torque and feedback-linearization development in [R1]. Ref. [R2] gives the same idea from the joint-space inverse-dynamics viewpoint. For the broader reading map, see [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Feedback Linearization
 
 For a manipulator:

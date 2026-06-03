@@ -32,6 +32,10 @@ flowchart LR
     F["task force F"] --> JT["tau = J^T F"]
 ```
 
+## Textbook Guide
+
+Ref. [R2] is the main source for task-space control: pseudoinverse and damped least-squares kinematic control, Jacobian-transpose regulation, direct task-space tracking, redundancy, and singularity issues. Ref. [R1] provides the joint-space dynamics background that the task-space schemes build on. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Motivation
 
 Up to this point, many controllers were written in joint space:

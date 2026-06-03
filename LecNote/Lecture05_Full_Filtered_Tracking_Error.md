@@ -34,6 +34,10 @@ flowchart TD
     LYAP --> PROOF["robot skew-symmetry simplifies Vdot"]
 ```
 
+## Textbook Guide
+
+The filtered tracking error is the bridge from computed torque to robust and adaptive robot control. Ref. [R1] is the main support for the `r = edot + Lambda e` design pattern and the Lyapunov energy argument used in later controllers. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Tracking Error
 
 The lecture uses:

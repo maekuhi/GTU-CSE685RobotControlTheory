@@ -31,6 +31,10 @@ flowchart TD
     MOBILE --> BODY["body-frame tracking errors"]
 ```
 
+## Textbook Guide
+
+Ref. [R2] is the main source for both halves of this lecture: elastic-joint modeling/control and wheeled mobile robot structure. The useful reading path is to treat elastic joints as a fast-slow mechanics problem, then mobile robots as a constraint geometry problem. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Part A - Flexible and Elastic Joint Manipulators
 
 Rigid-joint manipulators assume motor motion and link motion are the same. Flexible-joint manipulators separate motor and link coordinates.

@@ -31,6 +31,10 @@ flowchart TD
     COMP --> PARAM["improved parameter estimation when excitation exists"]
 ```
 
+## Textbook Guide
+
+Ref. [R1] is the main support for passivity-based adaptive control, persistency of excitation, filtered prediction error, least-squares estimation, and composite adaptation. Ref. [R2] helps connect the same ideas to the passivity structure of robot dynamics. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+
 ## Adaptive Control Based on Passivity
 
 The lecture begins with passivity-based adaptive control.
