@@ -46,6 +46,21 @@ Best used for:
 | Elastic-joint control | Separate link and motor coordinates, then handle fast elastic dynamics and slow link motion. | [R2] |
 | Mobile robot posture control | Transform posture errors to expose a stabilizable nonholonomic error structure. | [R2]; Lecture notes primary for the unified derivation |
 
+## Textbook Screenshots Used
+
+| Image file | Source | Used in |
+|---|---|---|
+| `images/ref1_fig_4_4_1_computed_torque.png` | [R1, Fig. 4.4.1] | Lecture 04 |
+| `images/ref1_fig_4_4_6_pid_computed_torque.png` | [R1, Fig. 4.4.6] | Lecture 04 |
+| `images/ref1_fig_5_3_1_passive_control_structure.png` | [R1, Fig. 5.3.1] | Lectures 05 and 06 |
+| `images/ref1_fig_5_3_4_sat_tanh.png` | [R1, Fig. 5.3.4] | Lecture 06 |
+| `images/ref1_fig_6_2_3_adaptive_computed_torque.png` | [R1, Fig. 6.2.3] | Lecture 07 |
+| `images/ref1_fig_6_3_1_adaptive_inertia_related.png` | [R1, Fig. 6.3.1] | Lectures 07 and 08 |
+| `images/ref2_excerpt_3_2_direct_task_space_control.png` | [R2, Sec. 3.2] | Lecture 09 |
+| `images/ref2_fig_5_1_elastic_joint.png` | [R2, Fig. 5.1] | Lecture 10 |
+| `images/ref2_fig_7_1_posture_coordinates.png` | [R2, Fig. 7.1] | Lecture 10 |
+| `images/ref2_fig_9_2_tracking_problem.png` | [R2, Fig. 9.2] | Lecture 11 |
+
 ## How To Read The Scheme Progression
 
 The course control schemes form a ladder:

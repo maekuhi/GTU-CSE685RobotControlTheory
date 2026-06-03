@@ -21,15 +21,9 @@ The clever point is that adaptation is not tuning by wishful thinking. The updat
 4. Build a Lyapunov function with both tracking error and parameter error.
 5. Choose the parameter update law to cancel mixed terms.
 
-```mermaid
-flowchart TD
-    DYN["robot dynamics"] --> REG["Y(q,qdot,qr_dot,qr_ddot) theta"]
-    REG --> EST["replace theta by theta_hat"]
-    EST --> CTRL["adaptive torque"]
-    CTRL --> ERR["filtered error r"]
-    ERR --> LYAP["V = tracking energy + parameter error energy"]
-    LYAP --> UPDATE["choose theta_hat_dot from Vdot"]
-```
+![Adaptive computed-torque controller from Ref. 1](images/ref1_fig_6_2_3_adaptive_computed_torque.png)
+
+*Textbook screenshot source: [R1, Fig. 6.2.3].*
 
 ## Textbook Guide
 
@@ -204,6 +198,10 @@ and:
 ```
 
 ## Adaptive Inertia-Related Controller
+
+![Adaptive inertia-related controller from Ref. 1](images/ref1_fig_6_3_1_adaptive_inertia_related.png)
+
+*Textbook screenshot source: [R1, Fig. 6.3.1].*
 
 Using the regressor:
 

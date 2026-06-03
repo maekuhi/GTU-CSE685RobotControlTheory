@@ -21,15 +21,9 @@ The lecture's main lesson is beautifully practical: good tracking and good ident
 4. Define persistency of excitation.
 5. Add prediction-error and filtering ideas for composite adaptation.
 
-```mermaid
-flowchart TD
-    TRACK["tracking error r"] --> PASS["passivity update"]
-    PASS --> CTRL["adaptive controller"]
-    MODEL["filtered model regression"] --> PRED["prediction error epsilon"]
-    PRED --> COMP["composite update"]
-    CTRL --> RESULT["tracking convergence"]
-    COMP --> PARAM["improved parameter estimation when excitation exists"]
-```
+![Adaptive inertia-related controller from Ref. 1](images/ref1_fig_6_3_1_adaptive_inertia_related.png)
+
+*Textbook screenshot source: [R1, Fig. 6.3.1].*
 
 ## Textbook Guide
 

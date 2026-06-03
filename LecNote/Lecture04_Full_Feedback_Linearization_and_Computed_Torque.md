@@ -21,16 +21,9 @@ Computed-torque control is the robot-specific version of this idea. It separates
 4. Select gains from second-order system behavior.
 5. Recognize the weakness: exact cancellation needs an accurate model.
 
-```mermaid
-flowchart LR
-    QD["qd, qd_dot, qd_ddot"] --> OUT["outer linear controller"]
-    Q["q, qdot"] --> OUT
-    OUT --> U["u"]
-    U --> INNER["tau = M(q)u + N(q,qdot)"]
-    Q --> INNER
-    INNER --> ROBOT["robot dynamics"]
-    ROBOT --> Q
-```
+![Computed-torque control scheme from Ref. 1](images/ref1_fig_4_4_1_computed_torque.png)
+
+*Textbook screenshot source: [R1, Fig. 4.4.1].*
 
 ## Textbook Guide
 
@@ -227,6 +220,10 @@ u=\ddot{q}_d+K_d\dot{e}+K_pe
 The inner loop cancels nonlinear dynamics; the outer loop sets tracking performance.
 
 ## PID Outer-Loop Computed Torque
+
+![PID computed-torque controller from Ref. 1](images/ref1_fig_4_4_6_pid_computed_torque.png)
+
+*Textbook screenshot source: [R1, Fig. 4.4.6].*
 
 The PD outer loop works cleanly when the model is exact and disturbances are small. Integral action is introduced when constant disturbances or steady model errors leave a residual tracking error.
 

@@ -21,15 +21,9 @@ That is the quiet power of coordinate design. If the error system is built intel
 4. Add auxiliary variables for layered control design.
 5. Use Lyapunov functions to prove convergence.
 
-```mermaid
-flowchart LR
-    TASK["regulation or tracking task"] --> ERR["define transformed error"]
-    ERR --> DYN["derive error dynamics"]
-    DYN --> AUX["introduce auxiliary variables"]
-    AUX --> CTRL["choose stabilizing control"]
-    CTRL --> LYAP["Lyapunov proof"]
-    LYAP --> CONV["error convergence"]
-```
+![Tracking problem schematic from Ref. 2](images/ref2_fig_9_2_tracking_problem.png)
+
+*Textbook screenshot source: [R2, Fig. 9.2].*
 
 ## Textbook Guide
 
@@ -252,14 +246,7 @@ The open-loop transformed system is therefore:
 
 This is similar to Brockett's nonholonomic integrator. That connection matters because it explains why restricted-mobility mobile robots are controllable but cannot be globally stabilized by an ordinary smooth time-invariant static feedback. The controller must use a more careful construction.
 
-```mermaid
-flowchart LR
-    RAW["raw posture error"] --> TR["global transformation"]
-    TR --> WZ["w1, z1, z2"]
-    WZ --> OPEN["w1dot = u^T J^T z + f; zdot = u"]
-    OPEN --> NHI["nonholonomic-integrator structure"]
-    NHI --> CTRL["auxiliary trajectory/control design"]
-```
+The textbook tracking schematic above is the geometric anchor for this transformed-error construction.
 
 ## Mobile-Robot Control Development
 

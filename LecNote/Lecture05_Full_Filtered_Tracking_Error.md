@@ -25,14 +25,9 @@ If this signal goes to zero, the tracking error behaves like a stable first-orde
 4. Express robot dynamics in terms of `r`.
 5. Use the inertia and skew-symmetry properties to build Lyapunov proofs.
 
-```mermaid
-flowchart TD
-    E["e = qd - q"] --> R["r = edot + Lambda e"]
-    R --> FILTER["stable filter edot + Lambda e = r"]
-    FILTER --> CONV["r -> 0 implies e -> 0"]
-    R --> LYAP["V = 1/2 r^T M r"]
-    LYAP --> PROOF["robot skew-symmetry simplifies Vdot"]
-```
+![Passive-control structure from Ref. 1](images/ref1_fig_5_3_1_passive_control_structure.png)
+
+*Textbook screenshot source: [R1, Fig. 5.3.1].*
 
 ## Textbook Guide
 

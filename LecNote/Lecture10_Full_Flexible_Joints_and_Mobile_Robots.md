@@ -21,15 +21,9 @@ The shared lesson is that control design is never independent of mechanics. A sp
 4. Model wheeled mobile robots with nonholonomic constraints.
 5. Design posture and tracking errors in body-frame coordinates.
 
-```mermaid
-flowchart TD
-    COURSE["robot control beyond rigid manipulators"] --> FLEX["elastic joints"]
-    COURSE --> MOBILE["wheeled mobile robots"]
-    FLEX --> SPRING["spring torque K(theta-q)"]
-    FLEX --> HIGHER["higher-order dynamics"]
-    MOBILE --> NONHOL["nonholonomic no-side-slip constraint"]
-    MOBILE --> BODY["body-frame tracking errors"]
-```
+![Elastic-joint manipulator schematic from Ref. 2](images/ref2_fig_5_1_elastic_joint.png)
+
+*Textbook screenshot source: [R2, Fig. 5.1].*
 
 ## Textbook Guide
 
@@ -271,16 +265,7 @@ u=u_s+\epsilon u_f
 
 where `u_f` damps the fast elastic dynamics. The slow part achieves the desired rigid-body behavior; the fast part prevents spring oscillations from spoiling that behavior.
 
-```mermaid
-flowchart LR
-    EL["elastic joint model"] --> EPS["epsilon^2 = 1/k"]
-    EPS --> SLOW["slow link dynamics"]
-    EPS --> FAST["fast elastic deformation"]
-    SLOW --> US["slow rigid-style control u_s"]
-    FAST --> UF["fast damping control u_f"]
-    US --> U["u = u_s + epsilon u_f"]
-    UF --> U
-```
+The textbook figure above is the anchor for the elastic-joint model; the slow-fast decomposition is developed from that motor-link separation.
 
 ## PD Control Using Motor Variables
 
@@ -309,6 +294,10 @@ u=k_p(q_{2d}-q_2)-k_d\dot{q}_2
 The important exam point is subtle: the proportional reference is shifted so that the motor settles at the value that produces the correct link equilibrium, while the velocity feedback is kept on the motor side to damp the directly actuated coordinate. If gravity or stiffness is uncertain, the equilibrium shift may be wrong, and a pure motor-variable integral term does not automatically fix the link error unless the integral action is driven by link-side error.
 
 ## Part B - Wheeled Mobile Robots
+
+![Posture coordinates of a mobile robot from Ref. 2](images/ref2_fig_7_1_posture_coordinates.png)
+
+*Textbook screenshot source: [R2, Fig. 7.1].*
 
 The lecture then moves to wheeled mobile robots.
 

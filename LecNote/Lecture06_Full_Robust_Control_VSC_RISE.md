@@ -24,16 +24,9 @@ The price is practical: discontinuous control can chatter. The later RISE idea s
 4. Replace pure sign control by saturation when chattering is a concern.
 5. Extend the idea to RISE by integrating sign-error information.
 
-```mermaid
-flowchart LR
-    MODEL["nominal robot model"] --> UNC["uncertainty Delta"]
-    UNC --> ROBUST["robust term v_r"]
-    R["filtered error r"] --> ROBUST
-    ROBUST --> VDOT["Vdot <= - damping + uncertainty - robust term"]
-    VDOT --> STABLE["boundedness / convergence"]
-    ROBUST --> CHAT["possible chattering"]
-    CHAT --> SAT["saturation or RISE"]
-```
+![Passive-control structure from Ref. 1](images/ref1_fig_5_3_1_passive_control_structure.png)
+
+*Textbook screenshot source: [R1, Fig. 5.3.1].*
 
 ## Textbook Guide
 
@@ -267,6 +260,10 @@ for some:
 This drives trajectories to the sliding surface.
 
 ## Chattering and Boundary Layer
+
+![Saturation and hyperbolic tangent functions from Ref. 1](images/ref1_fig_5_3_4_sat_tanh.png)
+
+*Textbook screenshot source: [R1, Fig. 5.3.4].*
 
 The discontinuous sign function can cause chattering.
 

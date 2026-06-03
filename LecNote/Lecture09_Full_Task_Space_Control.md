@@ -21,16 +21,9 @@ This lecture is about that translation. The Jacobian is the bridge, its inverse 
 4. Use null-space motion for redundant manipulators.
 5. Connect task-space forces to joint torques through `J^T`.
 
-```mermaid
-flowchart LR
-    Q["joint space q"] --> H["x = h(q)"]
-    H --> X["task space x"]
-    QD["qdot"] --> J["J(q)"]
-    J --> XD["xdot = J qdot"]
-    XD --> INV["inverse / pseudoinverse"]
-    INV --> QCMD["joint velocity command"]
-    F["task force F"] --> JT["tau = J^T F"]
-```
+![Direct task-space control reference excerpt from Ref. 2](images/ref2_excerpt_3_2_direct_task_space_control.png)
+
+*Textbook screenshot source: [R2, Sec. 3.2].*
 
 ## Textbook Guide
 
@@ -279,14 +272,7 @@ for the square nonsingular case. The terms `\mu` and `p` collect the velocity-de
 
 For redundant manipulators, the clean inverse `J^{-1}` is replaced by dynamically consistent or pseudoinverse mappings, and null-space torques may appear. Near singularities, `\Lambda` can become ill-conditioned because the robot loses the ability to generate arbitrary task accelerations or forces.
 
-```mermaid
-flowchart LR
-    JD["joint dynamics"] --> ACC["xddot = J qddot + Jdot qdot"]
-    ACC --> MAP["qddot = J^{-1}(xddot - Jdot qdot)"]
-    MAP --> CD["Cartesian dynamics"]
-    CD --> LAM["Lambda(q) xddot + mu + p = F"]
-    F["task wrench F"] --> JT["tau = J^T F"]
-```
+For the textbook source behind this direct task-space formulation, see the screenshot above and the reading map in [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
 
 ## Direct Task-Space Regulation
 
