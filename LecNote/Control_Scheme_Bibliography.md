@@ -56,10 +56,13 @@ Best used for:
 | `images/ref1_fig_5_3_4_sat_tanh.png` | [R1, Fig. 5.3.4] | Lecture 06 |
 | `images/ref1_fig_6_2_3_adaptive_computed_torque.png` | [R1, Fig. 6.2.3] | Lecture 07 |
 | `images/ref1_fig_6_3_1_adaptive_inertia_related.png` | [R1, Fig. 6.3.1] | Lectures 07 and 08 |
-| `images/ref2_excerpt_3_2_direct_task_space_control.png` | [R2, Sec. 3.2] | Lecture 09 |
 | `images/ref2_fig_5_1_elastic_joint.png` | [R2, Fig. 5.1] | Lecture 10 |
 | `images/ref2_fig_7_1_posture_coordinates.png` | [R2, Fig. 7.1] | Lecture 10 |
 | `images/ref2_fig_9_2_tracking_problem.png` | [R2, Fig. 9.2] | Lecture 11 |
+| `images/ref2_fig_1_2_modified_dh.png` | [R2, Fig. 1.2] | Lecture 03 |
+| `images/ref1_fig_2_2_1_state_space_block.png` | [R1, Fig. 2.2.1] | Lecture 01 |
+| `images/ref1_fig_2_6_1_stability_instability.png` | [R1, Fig. 2.6.1] | Lecture 02 |
+| `images/ref1_fig_2_9_2_feedback_interconnection.png` | [R1, Fig. 2.9.2] | Lecture 02 |
 
 ## How To Read The Scheme Progression
 

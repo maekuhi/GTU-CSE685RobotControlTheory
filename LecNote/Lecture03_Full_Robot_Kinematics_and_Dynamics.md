@@ -21,16 +21,6 @@ The key result of this lecture is the standard manipulator equation. Once a robo
 4. Derive manipulator dynamics using energy and Lagrange equations.
 5. Identify the structural properties that make robot control possible.
 
-```mermaid
-flowchart LR
-    Q["joint variables q"] --> FK["direct kinematics x=h(q)"]
-    FK --> X["task variables x"]
-    Q --> J["Jacobian J(q)"]
-    J --> XD["velocity relation xdot=J qdot"]
-    Q --> DYN["Lagrange dynamics"]
-    DYN --> EQ["M(q)qddot + C(q,qdot)qdot + G(q) + F = tau"]
-```
-
 ## Robot Manipulator Modeling
 
 Robotic manipulator modeling is divided into:
@@ -91,23 +81,11 @@ For the modified DH convention used in the reference:
 2. Choose `X_i` along the common normal between `Z_i` and `Z_{i+1}`, directed from joint `i` toward joint `i+1`.
 3. Choose `Y_i` to complete a right-handed coordinate frame.
 
-The geometry can be sketched as follows:
+![Kinematic parameters with modified Denavit-Hartenberg notation from Ref. 2](images/ref2_fig_1_2_modified_dh.png)
 
-```text
-      joint i-1                 joint i                 joint i+1
-          o------------------------o------------------------o
-          |                        |                        |
-        Z_{i-1}                  Z_i                    Z_{i+1}
-          \                        |                       /
-           \                       |                      /
-            ---- X_{i-1} ---->   O_i ---- X_i ---->
+*Textbook screenshot source: [R2, Fig. 1.2].*
 
-Modified DH asks:
-  How do I move from frame {i-1} to frame {i}
-  using two rotations and two translations?
-```
-
-This is a simplified original sketch of the idea shown in the reference-book figure: adjacent joint axes are connected through common normals, and the four DH quantities describe the twist, length, rotation, and offset between two consecutive frames.
+The figure shows the geometry used in the handwritten notes: adjacent joint axes are connected through common normals, and the four DH quantities describe the twist, length, rotation, and offset between two consecutive frames.
 
 ### Modified DH parameters
 
@@ -740,18 +718,7 @@ produce:
 M(q)\ddot{q}+C(q,\dot{q})\dot{q}+G(q)=\tau
 ```
 
-The important lesson is not the memorization of the two-link formula. The important lesson is the route:
-
-```mermaid
-flowchart LR
-    POS["center-of-mass positions"] --> VEL["differentiate for velocities"]
-    VEL --> K["kinetic energy K"]
-    POS --> P["potential energy P"]
-    K --> L["L = K - P"]
-    P --> L
-    L --> LAG["Lagrange equations"]
-    LAG --> ROBOT["M(q)qddot + C(q,qdot)qdot + G(q) = tau"]
-```
+The important lesson is not the memorization of the two-link formula. The important lesson is the route: write center-of-mass positions, differentiate them for velocities, build kinetic and potential energies, form the Lagrangian, and then apply Lagrange equations to recover the standard robot dynamics.
 
 ## Standard Robot Equation
 

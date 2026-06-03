@@ -21,10 +21,6 @@ This lecture is about that translation. The Jacobian is the bridge, its inverse 
 4. Use null-space motion for redundant manipulators.
 5. Connect task-space forces to joint torques through `J^T`.
 
-![Direct task-space control reference excerpt from Ref. 2](images/ref2_excerpt_3_2_direct_task_space_control.png)
-
-*Textbook screenshot source: [R2, Sec. 3.2].*
-
 ## Textbook Guide
 
 Ref. [R2] is the main source for task-space control: pseudoinverse and damped least-squares kinematic control, Jacobian-transpose regulation, direct task-space tracking, redundancy, and singularity issues. Ref. [R1] provides the joint-space dynamics background that the task-space schemes build on. See [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
@@ -272,7 +268,7 @@ for the square nonsingular case. The terms `\mu` and `p` collect the velocity-de
 
 For redundant manipulators, the clean inverse `J^{-1}` is replaced by dynamically consistent or pseudoinverse mappings, and null-space torques may appear. Near singularities, `\Lambda` can become ill-conditioned because the robot loses the ability to generate arbitrary task accelerations or forces.
 
-For the textbook source behind this direct task-space formulation, see the screenshot above and the reading map in [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
+For the textbook source behind this direct task-space formulation, see the reading map in [Control Scheme Bibliography](Control_Scheme_Bibliography.md).
 
 ## Direct Task-Space Regulation
 

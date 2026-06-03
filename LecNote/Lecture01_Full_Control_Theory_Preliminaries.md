@@ -29,12 +29,6 @@ The intellectual move is from "input goes in, output comes out" toward "the inte
 
 A continuous-time system maps an input signal `u(t)` to an output signal `y(t)`.
 
-```mermaid
-flowchart LR
-    U["input u(t)"] --> S["dynamic system"]
-    S --> Y["output y(t)"]
-```
-
 For a linear single-input single-output system, the relation may be described by an ordinary differential equation:
 
 ```math
@@ -81,20 +75,9 @@ where:
 - `C` is the output matrix,
 - `D` is the direct feedthrough matrix.
 
-```mermaid
-flowchart LR
-    U["u"] --> B["B"]
-    B --> SUM(("sum"))
-    X["x"] --> A["A"]
-    A --> SUM
-    SUM --> INT["integrator"]
-    INT --> X
-    X --> C["C"]
-    U --> D["D"]
-    C --> SUMY(("sum"))
-    D --> SUMY
-    SUMY --> Y["y"]
-```
+![State-space and transfer-function block diagrams from Ref. 1](images/ref1_fig_2_2_1_state_space_block.png)
+
+*Textbook screenshot source: [R1, Fig. 2.2.1].*
 
 ## Spring-Mass-Damper Example
 

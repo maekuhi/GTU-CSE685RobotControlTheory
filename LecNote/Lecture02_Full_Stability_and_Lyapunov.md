@@ -21,16 +21,9 @@ This lecture introduces Lyapunov theory, which is the art of proving stability w
 4. Build Lyapunov functions.
 5. Use LaSalle, passivity, Bellman-Gronwall, and Barbalat as supporting tools.
 
-```mermaid
-flowchart TD
-    A["system dynamics"] --> B["equilibrium point"]
-    B --> C["choose Lyapunov function V"]
-    C --> D["compute Vdot"]
-    D --> E{"Vdot sign"}
-    E -->|"<= 0"| F["stability / invariance tools"]
-    E -->|"< 0"| G["asymptotic stability"]
-    E -->|"quadratic decay"| H["exponential stability"]
-```
+![Stability and instability illustration from Ref. 1](images/ref1_fig_2_6_1_stability_instability.png)
+
+*Textbook screenshot source: [R1, Fig. 2.6.1].*
 
 ## Equilibrium Points
 
@@ -490,14 +483,9 @@ Positive-real systems do not generate net energy. This is why they appear in sta
 
 The Lure problem studies feedback interconnections of a linear dynamic system and a static nonlinearity:
 
-```mermaid
-flowchart LR
-    R["r"] --> SUM(("sum"))
-    SUM --> G["linear system G(s)"]
-    G --> Y["y"]
-    Y --> PHI["static nonlinearity phi(y)"]
-    PHI -->|negative feedback| SUM
-```
+![Feedback interconnection from Ref. 1](images/ref1_fig_2_9_2_feedback_interconnection.png)
+
+*Textbook screenshot source: [R1, Fig. 2.9.2].*
 
 The nonlinearity is usually assumed to lie in a sector:
 
