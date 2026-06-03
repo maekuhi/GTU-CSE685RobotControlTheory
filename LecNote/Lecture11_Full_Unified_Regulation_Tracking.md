@@ -171,8 +171,10 @@ and:
 \dot{z}_2
 =
 v_l(-\sin\theta\,\tilde{x}+\cos\theta\,\tilde{y})
-+\text{reference terms}
++d_{\mathrm{ref}}
 ```
+
+where `d_{\mathrm{ref}}` collects the reference-dependent terms.
 
 The important structural step is:
 
@@ -346,8 +348,10 @@ After substituting the selected `u`, `u_a`, and `z_d` dynamics, the cross terms 
 The final inequality has the exam-relevant shape:
 
 ```math
-\dot{V}\le -c_1w_1^2-c_2\|\tilde{z}\|^2+\text{decaying terms}
+\dot{V}\le -c_1w_1^2-c_2\|\tilde{z}\|^2+d(t)
 ```
+
+where `d(t)` denotes exponentially decaying terms.
 
 Since the extra terms decay exponentially through `\delta_d`, the transformed errors converge. Then the invertibility of the coordinate transformation gives convergence of the physical posture errors.
 
@@ -469,8 +473,10 @@ or:
 V=
 \frac{1}{2}\|z\|^2
 +
-\text{potential-like terms}
+P(e)
 ```
+
+where `P(e)` denotes the potential-like terms.
 
 The controller is chosen so:
 
@@ -505,8 +511,10 @@ Gain choices must dominate bounded uncertainty or coupling terms.
 Tracking becomes regulation when:
 
 ```math
-q_d(t)=q_d=\text{constant}
+q_d(t)=q_d
 ```
+
+with `q_d` constant.
 
 Then:
 

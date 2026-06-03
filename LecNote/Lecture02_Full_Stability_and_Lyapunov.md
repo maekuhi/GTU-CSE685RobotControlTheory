@@ -344,8 +344,10 @@ V=\frac{1}{2}x_1^2+\frac{1}{2}x_2^2
 or, in mechanical systems:
 
 ```math
-V=\text{kinetic energy}+\text{potential-like error energy}
+V=E_k+E_p
 ```
+
+where `E_k` is kinetic energy and `E_p` is potential-like error energy.
 
 The lecture examples show that the hard part is not differentiating `V`; it is choosing a useful `V`.
 
@@ -473,7 +475,7 @@ A transfer function `G(s)` is positive real if:
 2. For `s=j\omega`, the real part is nonnegative:
 
 ```math
-\operatorname{Re}\{G(j\omega)\}\ge 0
+\mathrm{Re}\{G(j\omega)\}\ge 0
 ```
 
 For MIMO systems:

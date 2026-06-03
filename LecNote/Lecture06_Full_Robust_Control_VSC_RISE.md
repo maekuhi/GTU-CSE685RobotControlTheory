@@ -212,7 +212,7 @@ Variable-structure control uses switching based on the sign of the error variabl
 For scalar `r`:
 
 ```math
-v_r=\rho\,\operatorname{sgn}(r)
+v_r=\rho\,\mathrm{sgn}(r)
 ```
 
 For vector systems, the sign may be componentwise:
@@ -220,9 +220,9 @@ For vector systems, the sign may be componentwise:
 ```math
 v_r=
 \begin{bmatrix}
-\rho_1\operatorname{sgn}(r_1)\\
+\rho_1\mathrm{sgn}(r_1)\\
 \vdots\\
-\rho_n\operatorname{sgn}(r_n)
+\rho_n\mathrm{sgn}(r_n)
 \end{bmatrix}
 ```
 
@@ -269,7 +269,7 @@ The discontinuous sign function can cause chattering.
 A practical replacement is saturation:
 
 ```math
-\operatorname{sat}\left(\frac{r}{\phi}\right)
+\mathrm{sat}\left(\frac{r}{\phi}\right)
 ```
 
 where `\phi` is a boundary-layer thickness.
@@ -277,7 +277,7 @@ where `\phi` is a boundary-layer thickness.
 Then:
 
 ```math
-v_r=\rho\,\operatorname{sat}\left(\frac{r}{\phi}\right)
+v_r=\rho\,\mathrm{sat}\left(\frac{r}{\phi}\right)
 ```
 
 This reduces chattering but may result in practical convergence rather than exact convergence.
@@ -309,7 +309,7 @@ V=\frac{1}{2}mr^2
 A control with switching:
 
 ```math
-u=m\ddot{x}_r+kr+\rho\operatorname{sgn}(r)
+u=m\ddot{x}_r+kr+\rho\mathrm{sgn}(r)
 ```
 
 gives:
@@ -335,7 +335,7 @@ The goal is to obtain robust convergence while avoiding directly discontinuous t
 Instead of applying only:
 
 ```math
-\operatorname{sgn}(r)
+\mathrm{sgn}(r)
 ```
 
 instantaneously, RISE uses an integral of a sign-like term.
@@ -372,7 +372,7 @@ A RISE-like auxiliary control contains:
 
 ```math
 \mu(t)=\int_0^t
-\left(k r(\sigma)+\beta\operatorname{sgn}(r(\sigma))\right)d\sigma
+\left(k r(\sigma)+\beta\mathrm{sgn}(r(\sigma))\right)d\sigma
 ```
 
 The torque uses this integral term so the applied control can be continuous while still retaining robust sign-error information.
@@ -405,8 +405,10 @@ or a related negative bound, where `z` stacks the error variables.
 The robust gain must dominate the uncertainty bound:
 
 ```math
-\beta>\text{uncertainty bound}
+\beta>\Delta_{\max}
 ```
+
+where `\Delta_{\max}` is the uncertainty bound.
 
 Under the assumptions:
 

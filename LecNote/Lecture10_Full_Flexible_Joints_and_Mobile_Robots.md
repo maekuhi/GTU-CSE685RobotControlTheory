@@ -38,12 +38,16 @@ Rigid-joint manipulators assume motor motion and link motion are the same. Flexi
 Let:
 
 ```math
-q = \text{link coordinate}
+q = q_{\ell}
 ```
 
+where `q_{\ell}` denotes the link coordinate.
+
 ```math
-\theta = \text{motor coordinate}
+\theta = q_m
 ```
+
+where `q_m` denotes the motor coordinate.
 
 Elasticity creates torque through the difference:
 
@@ -79,12 +83,16 @@ The system order is higher than the rigid-joint model.
 For an `n`-joint manipulator with elastic transmissions, the configuration needs two sets of coordinates:
 
 ```math
-q_1=\text{link coordinates}
+q_1=q_{\ell}
 ```
 
+where `q_{\ell}` denotes the vector of link coordinates.
+
 ```math
-q_2=\text{motor coordinates reflected through gear ratios}
+q_2=q_m
 ```
+
+where `q_m` denotes the vector of motor coordinates reflected through gear ratios.
 
 The joint deformation is:
 
@@ -101,7 +109,7 @@ U_e=\frac{1}{2}(q_1-q_2)^TK(q_1-q_2)
 where:
 
 ```math
-K=\operatorname{diag}(k_1,\ldots,k_n)>0
+K=\mathrm{diag}(k_1,\ldots,k_n)>0
 ```
 
 Using the Lagrange formulation, the complete model has `2n` generalized coordinates and only `n` direct control inputs, because the actuators apply torque to the motor coordinates while the links are actuated through the springs. A compact full-model form is:
@@ -396,12 +404,16 @@ This compact representation is the posture kinematic model.
 The mobile-robot reference classifies wheeled robots using two structural numbers:
 
 ```math
-\delta_m=\text{degree of mobility}
+\delta_m
 ```
 
+is the degree of mobility.
+
 ```math
-\delta_s=\text{degree of steerability}
+\delta_s
 ```
+
+is the degree of steerability.
 
 The degree of mobility is the dimension of the instantaneous posture velocity space. It counts how many independent posture directions can be produced directly without first changing steering angles.
 

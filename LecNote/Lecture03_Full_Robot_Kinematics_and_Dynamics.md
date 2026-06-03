@@ -135,10 +135,10 @@ or, using the reference notation:
 ```math
 {}^{i-1}T_i
 =
-\operatorname{Rot}(X,\alpha_i)
-\operatorname{Trans}(X,\ell_i)
-\operatorname{Rot}(Z,\theta_i)
-\operatorname{Trans}(Z,d_i)
+\mathrm{Rot}(X,\alpha_i)
+\mathrm{Trans}(X,\ell_i)
+\mathrm{Rot}(Z,\theta_i)
+\mathrm{Trans}(Z,d_i)
 ```
 
 The corresponding matrix is:
@@ -482,7 +482,7 @@ is important in task-space control and dynamics-level transformations.
 A kinematic singularity occurs when the Jacobian loses rank:
 
 ```math
-\operatorname{rank}J(q)<\min(6,n)
+\mathrm{rank}\,J(q)<\min(6,n)
 ```
 
 At a singularity:
